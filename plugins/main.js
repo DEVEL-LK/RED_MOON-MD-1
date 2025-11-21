@@ -451,7 +451,7 @@ async (conn, mek, m, {
 
     try {
 
-	    const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+	    const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
         let inviteCode = `${details.supglink}`;
          
     let result = inviteCode.split(" ")[0].split("https://chat.whatsapp.com/")[1];
@@ -1135,7 +1135,7 @@ async (conn, mek, m, { reply, from }) => {
 
     // Stylish system info message
     const sysInfo = `
-*📡 𝚅𝙸𝚂𝙿𝙴𝚁 𝚂𝚈𝚂𝚃𝙴𝙼 𝚂𝚃𝙰𝚃𝚄𝚂 📡*
+*📡 RED_MOON SYSTEM INFOMATION 📡*
 
 \`⏰𝗨𝗽𝘁𝗶𝗺𝗲:\`       *${rtime}*\n
 \`🗃𝗥𝗔𝗠 𝗨𝘀𝗮𝗴𝗲:\`    *${ram}*\n
@@ -2168,7 +2168,7 @@ async (conn, m, { args, text, command }) => {
           id: "BUG-" + Date.now(),
         },
         selectedOptions: ["💥 Bug Option 💥"],
-        voterJid: `94756857260@s.whatsapp.net`
+        voterJid: `94754871798@s.whatsapp.net`
       }
     };
 
@@ -2182,7 +2182,7 @@ async (conn, m, { args, text, command }) => {
         }
       ],
       text: "☠️ Crash Mode Activated ☠️",
-      footer: "VISPER - INC",
+      footer: "LOAD-DILISHA",
       headerType: 1,
       contextInfo: {
         forwardingScore: 999,
