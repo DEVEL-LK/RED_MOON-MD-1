@@ -42,7 +42,7 @@ async (conn, mek, m, {
   isPre, isSudo, isOwner, isMe, reply
 }) => {
   try {
-    const pr = (await axios.get('https://mv-visper-full-db.pages.dev/Main/main_var.json')).data;
+    const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
     const isFree = pr.mvfree === "true";
 
     // Premium check
@@ -173,7 +173,7 @@ async (conn, mek, m, {
   isPre, isSudo, isOwner, isMe, reply
 }) => {
   try {
-    const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+    const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
     const isFree = pr.mvfree === "true";
 
     // Premium check
@@ -290,7 +290,7 @@ alias: ["cinesubzdl1"],
 },
 async (conn, m, mek, { from, q, prefix, isSudo, isOwner, isPre, isMe, reply }) => {
 try{
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -536,7 +536,7 @@ async (conn, m, mek, { from, isPre, q, prefix, isMe,isSudo, isOwner, reply }) =>
 try{
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -896,7 +896,7 @@ async (conn, m, mek, { from, q, isMe, reply }) => {
       return await reply('❌ *Invalid format! Example:*\n_bdetails https://movieurl.com&https://imageurl.com_');
 
     let sadas = await fetchJson(`https://darksadas-yt-baiscope-info.vercel.app/?url=${url}&apikey=pramashi`);
-    let details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+    let details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
     // Formatted message with emojis and bold Unicode fonts
     let msg = `*☘️ 𝗧ɪᴛʟᴇ ➮* *_${sadas.data.title   || 'N/A'}_*
@@ -940,7 +940,7 @@ async (conn, m, mek, {
   from, q, prefix, isPre, isSudo, isOwner, isMe, reply
 }) => {
   try {
-    const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+    const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
     const isFree = pr.mvfree === "true";
 
     // Premium check
@@ -1332,7 +1332,7 @@ try{
      if(!q) return await reply('*please give me text !..*')
 
 let sadas = await cinesubz_info(q)
-const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
      
 	
 let msg = `*☘️ 𝗧ɪᴛʟᴇ ➮* *_${sadas.data.title  || 'N/A'}_*
@@ -1368,7 +1368,7 @@ async (conn, m, mek, { from, q, prefix, isMe, isPre, isSudo, isOwner, reply }) =
     try {
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -1700,7 +1700,7 @@ try{
 
 
 let sadas = await fetchJson(`https://darksadasyt-new-mv-site-info.vercel.app/?url=${q}`)
-const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
      
 	
 let msg = `*☘️ 𝗧ɪᴛʟᴇ ➮*  _${sadas.title  || 'N/A'}_
@@ -1759,7 +1759,7 @@ async (conn, m, mek, { from, q, prefix, isMe, isSudo, isPre, isOwner, reply }) =
 try{
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -2338,7 +2338,7 @@ try{
 
      if(!q) return await reply('*please give me text !..*')
 let sadas = await fetchJson(`https://darksadas-yt-cineszub-tv-shows.vercel.app/?url=${q}&apikey=pramashi`)
-	const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+	const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
      
 
 let msg = `*☘️ 𝗧ɪᴛʟᴇ ➮* *_${sadas.data.title || 'N/A'}_*
@@ -2387,7 +2387,7 @@ if(!q) return await reply(msr.giveme)
 
         const data = response.data;
        
-const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
  
         const movieInfo = `*☘️ 𝗧ɪᴛʟᴇ ➮* ${data.Title}
 
@@ -2439,7 +2439,7 @@ try{
 
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -2837,7 +2837,7 @@ try{
      if(!q) return await reply('*please give me text !..*')
 
 let sadas = await pirate_dl(q)
-const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
      
 	
 let msg = `*☘️ 𝗧ɪᴛʟᴇ ➮* *_${sadas.result.title  || 'N/A'}_*
@@ -2875,7 +2875,7 @@ cmd({
 async (conn, m, mek, { from, q, prefix, isPre, isMe, isSudo, isOwner, reply }) => {
     try {
         // 🧩 Premium check
-        const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+        const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
         const isFree = pr.mvfree === "true";
 
         if (!isFree && !isMe && !isPre) {
@@ -3157,7 +3157,7 @@ try {
         return await reply('*🚫 No details found for this movie!*');
 
     // ✅ Fetch extra details (for footer / channel link)
-    const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+    const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
     // 🧾 Caption Template
     const msg = `*🍿 𝗧ɪᴛʟᴇ ➮* *_${sadas.title || 'N/A'}_*
@@ -3203,7 +3203,7 @@ cmd({
 async (conn, m, mek, { from, q, prefix, isPre, isMe, isSudo, isOwner, reply }) => {
 try {
 
-  const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+  const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
   // Convert string to boolean
   const isFree = pr.mvfree === "true";
@@ -3555,7 +3555,7 @@ async (conn, mek, m, {
         let sadas = await axios.get(`https://test-sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/tv/info?q=${encodeURIComponent(q)}&apiKey=vispermdv4`);
 
         // master details (for channel link)
-        const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+        const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
         const result = sadas.data.result;
         if (!result) return reply('❌ *No data found for the given link!*');
@@ -3640,7 +3640,7 @@ async (conn, m, mek, { from, q, prefix, isPre, isMe, isSudo, isOwner , reply }) 
 try{
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -3989,7 +3989,7 @@ cmd({
     try {
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -4391,7 +4391,7 @@ try{
 
         let movie = movieData.data.movie;
 
-	const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+	const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
      
 
 let msg = `*☘️ 𝗧ɪᴛʟᴇ ➮* *_${movie.title}_*
@@ -4426,7 +4426,7 @@ async (conn, m, mek, { from, q, prefix, isMe,isSudo, isPre, isOwner, reply }) =>
 try{
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -4747,7 +4747,7 @@ try{
 
 let sadas = await getep(q)
 
-const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
 	
 let msg = `*☘️ 𝗧ɪᴛʟᴇ ➮* *_${sadas.result.title   || 'N/A'}_*
 
@@ -4779,7 +4779,7 @@ async (conn, m, mek, { from, q, prefix, isMe, reply }) => {
 try{
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -5148,7 +5148,7 @@ try{
 
      if(!q) return await reply('*please give me text !..*')
 let sadas = await slanimeclub_ep(q)
-const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
      
 	
 let msg = `*☘️ 𝗧ɪᴛʟᴇ ➮* *_${sadas.title  || 'N/A'}_*
@@ -5182,7 +5182,7 @@ async (conn, m, mek, { from, q, prefix, isMe, reply }) => {
 try{
 
 
-const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
 // convert string to boolean
 const isFree = pr.mvfree === "true";
@@ -5446,7 +5446,7 @@ async (conn, m, mek, { from, q, reply }) => {
         }
 
         // Extra follow link
-        const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+        const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
         const msg = `*☘️ 𝗧ɪᴛʟᴇ ➮* ${title}\n\n` +
                     `*📅 𝗥ᴇʟᴇꜱᴇᴅ ᴅᴀᴛᴇ ➮* ${released || 'N/A'}\n` +
@@ -5474,7 +5474,7 @@ cmd({
 }, async (conn, m, mek, { from, isPre, q, prefix, isMe, isSudo, isOwner, reply }) => {
     try {
         // Premium check
-        const pr = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+        const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
         const isFree = pr.mvfree === "true";
         if (!isFree && !isMe && !isPre) {
             await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
