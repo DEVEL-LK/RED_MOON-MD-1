@@ -110,7 +110,7 @@ async (conn, mek, m, {
     const uptime = await runtime(process.uptime());
 
     // Load external bot details
-    const details = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+    const details = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
 
         const MNG = `*🫟 RED_MOON MD - Bot Menu*
 
