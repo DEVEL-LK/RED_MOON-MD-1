@@ -88,7 +88,7 @@ const number = conn.user.id.split(':')[0].replace(/@s\.whatsapp\.net$/, '');
       const defaultMessage = {
         image: { url: config.LOGO },
         caption: `*Hello ${pushname} 👋❕*  
-I am alive now 🎈\n✨ Thank you for choosing \`Visper-MD\` — your trusted WhatsApp Multi-Device Bot! ✨
+I am alive now 🎈\n✨ Thank you for choosing \`RED_MOON-MD\` — your trusted WhatsApp Multi-Device Bot! ✨
 *┌────────────────────┐*
 *├ \`⏰ 𝐔𝐩𝐭𝐢𝐦𝐞\`* : ${rtime}
 *├ \`🚨 𝐇𝐨𝐬𝐭\`* : ${hostname}
@@ -107,7 +107,7 @@ I am alive now 🎈\n✨ Thank you for choosing \`Visper-MD\` — your trusted W
 • *📂 GitHub Repository:* ${details.reponame}  
 • *📢 WhatsApp Channel:* ${details.chlink}   
 
-*💛 Thank you for trusting VISPER-MD!*`,
+*💛 Thank you for trusting RED_MOON-MD!*`,
         footer: config.FOOTER,
         buttons: baseButtons,
         headerType: 4
