@@ -1777,7 +1777,7 @@ async(conn, mek, m,{from, l, quoted, body, isCmd, command, args, q, isGroup, isS
 try{
 if (!q || !q.includes('@')) {
     console.log('Invalid input:', q);
-    return await reply('*❗ Invalid input example : .active 94787318729@s.whatsapp.net or .active 120363387559195313@g.us*');
+    return await reply('*❗ Invalid input example : .active 94754871798s.whatsapp.net or .active 120363409948513290@g.us*');
 }
     
 if (!isMe && !isSudo) return await reply('*OWNER COMMAND ⛔*') 
