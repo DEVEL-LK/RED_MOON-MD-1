@@ -25,7 +25,7 @@ async (conn, mek, m, {
 }) => {
     try {
         
-        const response = await axios.get("https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json");
+        const response = await axios.get("https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json");
         const details = response.data;
 
         const result = `*📤RED_MOON-MD📤*
