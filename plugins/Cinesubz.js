@@ -1,4 +1,4 @@
-Const config = require('../config')
+const config = require('../config')
 const { cmd, commands } = require('../command')
 const axios = require('axios');
 const sharp = require('sharp');
@@ -1081,4 +1081,3 @@ await conn.sendMessage(config.JID || from, { image: { url: sadas.data.image.repl
 });
 
 //============================================
-
