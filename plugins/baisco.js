@@ -1,148 +1,187 @@
 const config = require('../config')
-const { cmd } = require('../command')
+const { cmd, commands } = require('../command')
 const axios = require('axios');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const { fetchJson } = require('../lib/functions')
+const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const { Buffer } = require('buffer'); 
+const fs = require('fs');
 
-let isUploading = false;
+let isUploading = false; // Track upload status
 
-//================== Baiscopes Search ==================
+//======================= Baiscopes Search =======================
 cmd({
-    pattern: "baiscopes",
+    pattern: "baiscopes",	
     react: '🔎',
     category: "movie",
     desc: "Baiscopes.lk movie search",
     use: ".baiscopes 2025",
     filename: __filename
-}, async (conn, m, mek, { from, q, prefix, isMe, isPre, isSudo, isOwner, reply }) => {
-    try {
-        if (!q) return await reply('*Please provide a movie name!*');
+},
+async (conn, m, mek, { from, q, prefix, isMe, isPre, isSudo, isOwner, reply }) => {
+try{
 
-        const API_KEY = "c56182a993f60b4f49cf97ab09886d17";
-        const searchUrl = `https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/search?q=${encodeURIComponent(q)}&apiKey=${API_KEY}`;
+    if(!q) return await reply('*Please provide search text!*')
 
-        const response = await fetch(searchUrl);
-        const url = await response.json();
-
-        if (!url || !url.data || url.data.length === 0) {
-            await conn.sendMessage(from, { text: '*No results found ❌*' }, { quoted: mek });
-            return;
-        }
-
-        const rows = url.data.map(v => ({
-            title: v.title,
-            id: prefix + `bdl ${v.link}&${v.year}`
-        }));
-
-        const listMessage = {
-            text: `*_BAISCOPES MOVIE SEARCH RESULT 🎬_*\n\n*Input:* ${q}`,
-            footer: config.FOOTER,
-            title: "Baiscopes.lk results",
-            buttonText: "*Reply Below Number 🔢*",
-            sections: [{ title: "Movies found", rows }]
-        };
-
-        await conn.listMessage(from, listMessage, mek);
-
-    } catch (e) {
-        console.error("Search Error:", e);
-        await conn.sendMessage(from, { text: '🚩 *Error on search!!*' }, { quoted: mek });
+    // 🔹 NEW v2 Search API
+    const url = await fetchJson(`https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/search?q=${encodeURIComponent(q)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
+    
+    if (!url || !url.data || url.data.length === 0) {
+        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+        return await conn.sendMessage(from, { text: '*No results found ❌*' }, { quoted: mek });
     }
-});
 
-//================== Movie Info & Download Links ==================
+    const rows = url.data.map(v => ({
+        title: v.title,
+        rowId: prefix + `bdl ${v.link}&${v.year}`
+    }));
+
+    const listMessage = {
+        text: `*_BAISCOPES MOVIE SEARCH RESULT 🎬_*\n\n*Input:* ${q}`,
+        footer: config.FOOTER,
+        buttonText: "Select Movie 🔢",
+        sections: [{ title: "Results", rows }]
+    };
+
+    await conn.sendMessage(from, { listMessage }, { quoted: mek });
+
+} catch (e) {
+    console.log(e)
+    await conn.sendMessage(from, { text: '🚩 *Error !!*' }, { quoted: mek } )
+}
+})
+
+//======================= BDL (Info + Download Links) =======================
 cmd({
-    pattern: "bdl",
+    pattern: "bdl",	
     react: '🎥',
     desc: "Movie downloader",
     filename: __filename
-}, async (conn, m, mek, { from, q, prefix, reply }) => {
-    try {
-        if (!q) return await reply('*Please provide a movie selection!*');
+},
+async (conn, m, mek, { from, q, prefix, reply }) => {
+try{
 
-        const [movieUrl, year] = q.split("&");
+    const [urll, im] = q.split("&");
+    if(!urll) return await reply('⚠️ Invalid input!');
 
-        const API_KEY = "c56182a993f60b4f49cf97ab09886d17";
-        const infoUrl = `https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/infodl?q=${movieUrl}&apiKey=${API_KEY}`;
+    // 🔹 NEW v2 Info+DL API
+    const sadas = await fetchJson(`https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/infodl?q=${encodeURIComponent(urll)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
 
-        const res = await fetch(infoUrl);
-        const sadas = await res.json();
+    if(!sadas || !sadas.data) return await reply('❌ Error fetching movie info!');
 
-        if (!sadas || !sadas.data) {
-            return await reply('*No details found ❗*');
-        }
+    let msg = `*☘️ Title:* *_${sadas.data.title || 'N/A'}_*\n\n` +
+              `*📅 Released:* _${sadas.data.date || 'N/A'}_\n` +
+              `*💃 Rating:* _${sadas.data.imdb || 'N/A'}_\n` +
+              `*⏰ Runtime:* _${sadas.data.runtime || 'N/A'}_\n` +
+              `*💁‍♂️ Subtitle by:* _${sadas.data.subtitle_author || 'N/A'}_\n` +
+              `*🎭 Genres:* ${sadas.data.genres.join(', ') || 'N/A'}`;
 
-        const msg = `*🎬 Title:* ${sadas.data.title || 'N/A'}
-*📅 Released:* ${sadas.data.date || 'N/A'}
-*💃 Rating:* ${sadas.data.imdb || 'N/A'}
-*⏰ Runtime:* ${sadas.data.runtime || 'N/A'}
-*💁‍♂️ Subtitle by:* ${sadas.data.subtitle_author || 'N/A'}
-*🎭 Genres:* ${sadas.data.genres.join(', ') || 'N/A'}
-`;
+    const buttonRows = sadas.data.dl_links.map(v => ({
+        buttonId: prefix + `cdl ${im}±${v.link}±${sadas.data.title}`,
+        buttonText: { displayText: `${v.size} - ${v.quality}` },
+        type: 1
+    }));
 
-        const rows = sadas.data.dl_links.map(v => ({
-            title: `${v.size} (${v.quality})`,
-            id: prefix + `cdl ${v.thumbnail}±${v.link}±${sadas.data.title}`
-        }));
+    // Details button
+    buttonRows.unshift({
+        buttonId: prefix + `bdetails ${urll}&${im}`,
+        buttonText: { displayText: 'Details Send' },
+        type: 1
+    });
 
-        const listButtons = {
-            title: "Choose download link :)",
-            sections: [{ title: "Available Links", rows }]
-        };
+    await conn.sendMessage(from, {
+        image: { url: im.replace("-150x150","") },
+        caption: msg,
+        footer: config.FOOTER,
+        buttons: buttonRows,
+        headerType: 4
+    }, { quoted: mek });
 
-        await conn.sendMessage(from, {
-            image: { url: sadas.data.thumbnail.replace("-150x150", "") },
-            caption: msg,
-            footer: config.FOOTER,
-            buttons: [
-                {
-                    buttonId: "download_list",
-                    buttonText: { displayText: "🎥 Select Option" },
-                    type: 4,
-                    nativeFlowInfo: { name: "single_select", paramsJson: JSON.stringify(listButtons) }
-                }
-            ],
-            headerType: 1
-        }, { quoted: mek });
+} catch (e) {
+    console.log(e)
+    await conn.sendMessage(from, { text: '🚩 *Error !!*' }, { quoted: mek } )
+}
+})
 
-    } catch (e) {
-        console.error("BDL Error:", e);
-        await conn.sendMessage(from, { text: '🚩 *Error fetching movie details!*' }, { quoted: mek });
-    }
-});
-
-//================== Direct Download ==================
+//======================= CDL (Download) =======================
 cmd({
     pattern: "cdl",
     react: "⬇️",
     dontAddCommandList: true,
     filename: __filename
 }, async (conn, mek, m, { from, q, reply }) => {
-    try {
-        if (!q) return await reply('*Please provide a direct URL!*');
-        if (isUploading) return await conn.sendMessage(from, { text: '*Another movie is being uploaded, wait a moment ⏳*', quoted: mek });
+    
+    if(!q) return await reply('*Please provide a direct URL!*');
 
+    if(isUploading) return await conn.sendMessage(from, { text: '*A movie is already being uploaded. Please wait ⏳*', quoted: mek });
+
+    try{
         isUploading = true;
-        const [thumbnail, dlUrl, title] = q.split("±");
 
-        const mediaUrl = dlUrl.trim();
+        const [datae, datas, dat] = q.split("±");
+
+        // 🔹 NEW v2 Info+DL API (get final direct link)
+        const sadas = await fetchJson(`https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/infodl?q=${encodeURIComponent(datas)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
+
+        if(!sadas || !sadas.data || !sadas.data.dl_links || sadas.data.dl_links.length < 1) {
+            throw new Error('No download link found.');
+        }
+
+        const mediaUrl = sadas.data.dl_links[0].link; // take first link for simplicity
 
         await conn.sendMessage(from, { react: { text: '⬆️', key: mek.key } });
         await conn.sendMessage(from, { text: '*Uploading your movie..⬆️*' });
 
-        await conn.sendMessage(from, {
+        await conn.sendMessage(from, { 
             document: { url: mediaUrl },
-            caption: `*🎬 Name:* ${title}\n\n${config.NAME}`,
+            caption: `*🎬 Name:* ${dat}\n\n${config.NAME}`,
             mimetype: "video/mp4",
-            jpegThumbnail: await (await fetch(thumbnail)).buffer(),
-            fileName: `${title}.mp4`
+            jpegThumbnail: await (await fetch(datae)).buffer(),
+            fileName: `${dat}.mp4`
         });
 
         await conn.sendMessage(from, { react: { text: '✔️', key: mek.key } });
-        isUploading = false;
+        await conn.sendMessage(from, { text: `*Movie sent successfully ✔*` }, { quoted: mek });
 
-    } catch (e) {
-        console.error("CDL Error:", e);
+    } catch(e){
+        console.log(e);
+        await conn.sendMessage(from, { text: "*Error fetching or uploading movie!*" }, { quoted: mek });
+    } finally{
         isUploading = false;
-        await conn.sendMessage(from, { text: '*🚩 Error uploading movie!*' }, { quoted: mek });
     }
-});
+})
+
+//======================= BDETAILS =======================
+cmd({
+  pattern: "bdetails",
+  react: '🎬',
+  desc: "Movie downloader",
+  filename: __filename
+},
+async (conn, m, mek, { from, q, reply }) => {
+  try {
+    if (!q) return await reply('⚠️ Please provide URL & image separated by "&".');
+
+    const [url, imgUrl] = q.split("&");
+    if (!url || !imgUrl) return await reply('❌ Invalid format! Example: _bdetails <url>&<img>_');
+
+    const sadas = await fetchJson(`https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/infodl?q=${encodeURIComponent(url)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
+
+    let msg = `*☘️ Title:* *_${sadas.data.title || 'N/A'}_*\n\n` +
+              `*📅 Released:* _${sadas.data.date || 'N/A'}_\n` +
+              `*💃 Rating:* _${sadas.data.imdb || 'N/A'}_\n` +
+              `*⏰ Runtime:* _${sadas.data.runtime || 'N/A'}_\n` +
+              `*💁‍♂️ Subtitle by:* _${sadas.data.subtitle_author || 'N/A'}_\n` +
+              `*🎭 Genres:* ${sadas.data.genres.join(', ') || 'N/A'}`;
+
+    await conn.sendMessage(from, {
+      image: { url: imgUrl.replace("-150x150","") },
+      caption: msg
+    });
+
+    await conn.sendMessage(from, { react: { text: '✅', key: mek.key } });
+
+  } catch(e){
+    console.log(e);
+    await conn.sendMessage(from, { text: '⚠️ *Error fetching movie details!*' }, { quoted: mek });
+  }
+})
