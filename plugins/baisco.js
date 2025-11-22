@@ -1,6 +1,5 @@
 const config = require('../config')
 const { cmd } = require('../command')
-const axios = require('axios');
 const { fetchJson } = require('../lib/functions')
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const { Buffer } = require('buffer'); 
@@ -20,9 +19,9 @@ async (conn, m, mek, { from, q, prefix, reply }) => {
 try{
     if(!q) return await reply('*Please provide search text!*')
 
-    // 🔹 NEW v2 Search API
+    // 🔹 v2 Search API
     const url = await fetchJson(`https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/search?q=${encodeURIComponent(q)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
-    
+
     if (!url || !url.data || url.data.length === 0) {
         await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
         return await conn.sendMessage(from, { text: '*No results found ❌*' }, { quoted: mek });
@@ -60,7 +59,7 @@ try{
     const [urll, im] = q.split("&");
     if(!urll) return await reply('⚠️ Invalid input!');
 
-    // 🔹 NEW v2 Info+DL API
+    // 🔹 v2 Info+DL API
     const sadas = await fetchJson(`https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/infodl?q=${encodeURIComponent(urll)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
 
     if(!sadas || !sadas.data) return await reply('❌ Error fetching movie info!');
