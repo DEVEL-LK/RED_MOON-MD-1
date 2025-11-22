@@ -250,7 +250,7 @@ const leaveMsg = config.LEAVE_MSG;
 *\`• Action :\`* ${action ?? "delete"}
 *\`• Antilink Action :\`* ${antiLinkAction ?? "delete"}
 *\`• Values :\`* ${values?.length ? values.join(", ") : "None"}
-*\`• Logo :\`* ${logo ?? "https://files.catbox.moe/h131nw.jpg"}
+*\`• Logo :\`* ${logo ?? "https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/main/file_00000000321c7208992c059fcc2e37bb.png"}
 *\`• Anti Delete :\`* ${antiDelete ?? "off"}
 *\`• Leave Msg :\`* ${leaveMsg || "None"}
 `;
