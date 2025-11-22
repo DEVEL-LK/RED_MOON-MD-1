@@ -1,25 +1,23 @@
 const config = require('../config')
-const { cmd, commands } = require('../command')
+const { cmd } = require('../command')
 const axios = require('axios');
 const { fetchJson } = require('../lib/functions')
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const { Buffer } = require('buffer'); 
-const fs = require('fs');
 
 let isUploading = false; // Track upload status
 
 //======================= Baiscopes Search =======================
 cmd({
-    pattern: "baiscopes",	
+    pattern: "b2",	
     react: '🔎',
     category: "movie",
     desc: "Baiscopes.lk movie search",
-    use: ".baiscopes 2025",
+    use: ".b2 2025",
     filename: __filename
 },
-async (conn, m, mek, { from, q, prefix, isMe, isPre, isSudo, isOwner, reply }) => {
+async (conn, m, mek, { from, q, prefix, reply }) => {
 try{
-
     if(!q) return await reply('*Please provide search text!*')
 
     // 🔹 NEW v2 Search API
@@ -45,8 +43,8 @@ try{
     await conn.sendMessage(from, { listMessage }, { quoted: mek });
 
 } catch (e) {
-    console.log(e)
-    await conn.sendMessage(from, { text: '🚩 *Error !!*' }, { quoted: mek } )
+    console.log('🔹 Baiscopes Search Error:', e);
+    await conn.sendMessage(from, { text: '🚩 *Error in search! Check console for details.*' }, { quoted: mek } )
 }
 })
 
@@ -59,7 +57,6 @@ cmd({
 },
 async (conn, m, mek, { from, q, prefix, reply }) => {
 try{
-
     const [urll, im] = q.split("&");
     if(!urll) return await reply('⚠️ Invalid input!');
 
@@ -81,7 +78,6 @@ try{
         type: 1
     }));
 
-    // Details button
     buttonRows.unshift({
         buttonId: prefix + `bdetails ${urll}&${im}`,
         buttonText: { displayText: 'Details Send' },
@@ -97,8 +93,8 @@ try{
     }, { quoted: mek });
 
 } catch (e) {
-    console.log(e)
-    await conn.sendMessage(from, { text: '🚩 *Error !!*' }, { quoted: mek } )
+    console.log('🔹 BDL Error:', e);
+    await conn.sendMessage(from, { text: '🚩 *Error fetching BDL! Check console.*' }, { quoted: mek })
 }
 })
 
@@ -109,24 +105,18 @@ cmd({
     dontAddCommandList: true,
     filename: __filename
 }, async (conn, mek, m, { from, q, reply }) => {
-    
     if(!q) return await reply('*Please provide a direct URL!*');
-
     if(isUploading) return await conn.sendMessage(from, { text: '*A movie is already being uploaded. Please wait ⏳*', quoted: mek });
 
     try{
         isUploading = true;
-
         const [datae, datas, dat] = q.split("±");
 
-        // 🔹 NEW v2 Info+DL API (get final direct link)
         const sadas = await fetchJson(`https://sadaslk-apis.vercel.app/api/v1/movie/baiscopes/infodl?q=${encodeURIComponent(datas)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
 
-        if(!sadas || !sadas.data || !sadas.data.dl_links || sadas.data.dl_links.length < 1) {
-            throw new Error('No download link found.');
-        }
+        if(!sadas || !sadas.data || !sadas.data.dl_links || sadas.data.dl_links.length < 1) throw new Error('No download link found.');
 
-        const mediaUrl = sadas.data.dl_links[0].link; // take first link for simplicity
+        const mediaUrl = sadas.data.dl_links[0].link;
 
         await conn.sendMessage(from, { react: { text: '⬆️', key: mek.key } });
         await conn.sendMessage(from, { text: '*Uploading your movie..⬆️*' });
@@ -143,7 +133,7 @@ cmd({
         await conn.sendMessage(from, { text: `*Movie sent successfully ✔*` }, { quoted: mek });
 
     } catch(e){
-        console.log(e);
+        console.log('🔹 CDL Error:', e);
         await conn.sendMessage(from, { text: "*Error fetching or uploading movie!*" }, { quoted: mek });
     } finally{
         isUploading = false;
@@ -181,7 +171,7 @@ async (conn, m, mek, { from, q, reply }) => {
     await conn.sendMessage(from, { react: { text: '✅', key: mek.key } });
 
   } catch(e){
-    console.log(e);
+    console.log('🔹 BDETAILS Error:', e);
     await conn.sendMessage(from, { text: '⚠️ *Error fetching movie details!*' }, { quoted: mek });
   }
 })
