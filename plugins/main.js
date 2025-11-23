@@ -123,7 +123,7 @@ I am alive now 🎈\n✨ Thank you for choosing \`RED_MOON-MD\` — your trusted
       return await conn.sendMessage(
         from,
         {
-          image: { url: config.LOGO },
+          image: { url: "https://files.catbox.moe/h131nw.jpg" },
           caption,
           footer: config.FOOTER,
           buttons: [
@@ -144,7 +144,7 @@ I am alive now 🎈\n✨ Thank you for choosing \`RED_MOON-MD\` — your trusted
       );
     } else {
       const customMessage = {
-        image: { url: config.LOGO },
+        image: { url: "https://files.catbox.moe/h131nw.jpg" },
         caption,
         footer: config.FOOTER,
         buttons: baseButtons,
@@ -288,7 +288,7 @@ async (conn, mek, m, context) => {
 });
 
 
-
+//========================
 
 cmd({
   pattern: "menu",
@@ -299,7 +299,7 @@ cmd({
   use: '.menu',
   filename: __filename
 }, 
-async (conn, mek, m, { from, pushname, prefix,  reply, l }) => {
+async (conn, mek, { from, pushname, prefix, reply, l }) => {
   try {
     // Hosting platform detection
     let hostname;
@@ -314,9 +314,9 @@ async (conn, mek, m, { from, pushname, prefix,  reply, l }) => {
     const ramTotal = Math.round(os.totalmem() / 1024 / 1024);
     const ramUsage = `${ramUsed}MB / ${ramTotal}MB`;
     const rtime = await runtime(process.uptime());
-const number = conn.user.id.split(':')[0].replace(/@s\.whatsapp\.net$/, '');
-    const caption =  `*Hello ${pushname}  👋*
-I am *RED_MOON-MD* Userbot🎈
+    const number = conn.user.id.split(':')[0].replace(/@s\.whatsapp\.net$/, '');
+
+    const caption = `*Hello ${pushname} 👋*\nI am *RED_MOON-MD* Userbot🎈
 *┌────────────────────┐*
 *├ \`⏰ 𝐔𝐩𝐭𝐢𝐦𝐞\`* : ${rtime}
 *├ \`🚨 𝐇𝐨𝐬𝐭\`* : ${hostname}
@@ -331,54 +331,33 @@ I am *RED_MOON-MD* Userbot🎈
 
 *🫟 Your all-in-one WhatsApp assistant — fast, reliable, and easy to use!*`;
 
- const captionn =  `*Hello ${pushname}  👋*
-I am *RED_MOON-MD* Userbot🎈
-*┌────────────────────┐*
-*├ \`⏰ 𝐔𝐩𝐭𝐢𝐦𝐞\`* : ${rtime}
-*├ \`🚨 𝐇𝐨𝐬𝐭\`* : ${hostname}
-*├ \`🎡 𝐏𝐫𝐞𝐟𝐢𝐱\`* : ${config.PREFIX}
-*├ \`👤 𝐔𝐬𝐞𝐫\`* : ${pushname}
-*├ \`⛵ 𝐑𝐚𝐦 𝐮𝐬𝐬𝐚𝐠𝐞\`* : ${ramUsage}
-*├ \`👨🏻‍💻 𝐎𝐰𝐧𝐞𝐫\`* : ${number}
-*├ \`📤  OWNER\`* : *LOAD DILISHA*
-*├ \`🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧\`* : 2.0.0
-*├ \`💼 𝐖𝐨𝐫𝐤 𝐓𝐲𝐩𝐞\`* : ${config.WORK_TYPE}
-*└────────────────────┘*
-
-*🫟 Your all-in-one WhatsApp assistant — fast, reliable, and easy to use!*`
-
-	  
-
-    // 🔐 Load image from URL as Buffer (safe)
+    // 🔐 Load direct logo image as Buffer
     let imageBuffer;
     try {
-      if (!config.LOGO || !config.LOGO.startsWith('http')) {
-        throw new Error("Invalid config.LOGO URL");
-      }
-      const res = await axios.get(config.LOGO, { responseType: 'arraybuffer' });
+      const res = await axios.get("https://files.catbox.moe/h131nw.jpg", { responseType: 'arraybuffer' });
       imageBuffer = Buffer.from(res.data, 'binary');
       if (!Buffer.isBuffer(imageBuffer)) throw new Error("Not a valid buffer");
     } catch (err) {
       console.error("❌ Failed to load image:", err.message);
-      return reply("⚠️ Could not load menu image. Check your LOGO URL.");
+      return reply("⚠️ Could not load menu image.");
     }
 
     const buttons = [
       { buttonId: prefix + 'mainmenu', buttonText: { displayText: 'MAIN COMMANDS' }, type: 1 },
-	{ buttonId: prefix + 'ownermenu', buttonText: { displayText: 'OWNER COMMANDS' }, type: 1 },
+      { buttonId: prefix + 'ownermenu', buttonText: { displayText: 'OWNER COMMANDS' }, type: 1 },
       { buttonId: prefix + 'groupmenu', buttonText: { displayText: 'GROUP COMMANDS' }, type: 1 },
       { buttonId: prefix + 'moviemenu', buttonText: { displayText: 'MOVIE COMMANDS' }, type: 1 },
       { buttonId: prefix + 'downloadmenu', buttonText: { displayText: 'DOWNLOAD COMMANDS' }, type: 1 },
       { buttonId: prefix + 'convertmenu', buttonText: { displayText: 'CONVERT COMMANDS' }, type: 1 },
-		{ buttonId: prefix + 'searchmenu', buttonText: { displayText: 'SEARCH COMMANDS' }, type: 1 },
-		{ buttonId: prefix + 'logomenu', buttonText: { displayText: 'LOGO COMMANDS' }, type: 1 },
+      { buttonId: prefix + 'searchmenu', buttonText: { displayText: 'SEARCH COMMANDS' }, type: 1 },
+      { buttonId: prefix + 'logomenu', buttonText: { displayText: 'LOGO COMMANDS' }, type: 1 },
       { buttonId: prefix + 'aicommands', buttonText: { displayText: 'AI COMMANDS' }, type: 1 },
-		{ buttonId: prefix + 'othermenu', buttonText: { displayText: 'OTHER COMMANDS' }, type: 1 }
+      { buttonId: prefix + 'othermenu', buttonText: { displayText: 'OTHER COMMANDS' }, type: 1 }
     ];
 
     const buttonMessage = {
-      image: imageBuffer, // ✅ CORRECT format
-      caption: captionn,
+      image: imageBuffer,
+      caption,
       footer: config.FOOTER,
       buttons,
       headerType: 4
@@ -391,23 +370,23 @@ I am *RED_MOON-MD* Userbot🎈
           {
             title: "VISPER-MD",
             rows: [
-              { title: "MAIN COMMANDS", "description":"Main command menu", id: `${prefix}mainmenu` },
-				{ title: "OWNER COMMANDS", "description":"Group command menu", id: `${prefix}ownermenu` },
-              { title: "GROUP COMMANDS", "description":"Group command menu", id: `${prefix}groupmenu` },
-             { title: "MOVIE COMMANDS", "description":"Movie command menu", id: `${prefix}moviemenu` },
-              { title: "DOWNLOAD COMMANDS", "description":"Download command menu", id: `${prefix}downloadmenu` },
-		{ title: "CONVERT COMMANDS", "description":"Convert command menu", id: `${prefix}convertmenu` },
-				{ title: "SEARCH COMMANDS", "description":"Search command menu", id: `${prefix}searchmenu` },
-				{ title: "LOGO COMMANDS", "description":"Logo command menu", id: `${prefix}logomenu` },
-		    { title: "AI COMMANDS", "description":"AI command menu", id: `${prefix}aimenu` },
-				{ title: "OTHER COMMANDS", "description":"Other command menu", id: `${prefix}OTHERmenu` }
+              { title: "MAIN COMMANDS", description:"Main command menu", id: `${prefix}mainmenu` },
+              { title: "OWNER COMMANDS", description:"Owner command menu", id: `${prefix}ownermenu` },
+              { title: "GROUP COMMANDS", description:"Group command menu", id: `${prefix}groupmenu` },
+              { title: "MOVIE COMMANDS", description:"Movie command menu", id: `${prefix}moviemenu` },
+              { title: "DOWNLOAD COMMANDS", description:"Download command menu", id: `${prefix}downloadmenu` },
+              { title: "CONVERT COMMANDS", description:"Convert command menu", id: `${prefix}convertmenu` },
+              { title: "SEARCH COMMANDS", description:"Search command menu", id: `${prefix}searchmenu` },
+              { title: "LOGO COMMANDS", description:"Logo command menu", id: `${prefix}logomenu` },
+              { title: "AI COMMANDS", description:"AI command menu", id: `${prefix}aicommands` },
+              { title: "OTHER COMMANDS", description:"Other command menu", id: `${prefix}othermenu` }
             ]
           }
         ]
       };
 
       return await conn.sendMessage(from, {
-        image: imageBuffer, // ✅ Again, direct Buffer
+        image: imageBuffer,
         caption,
         footer: config.FOOTER,
         buttons: [
@@ -420,12 +399,10 @@ I am *RED_MOON-MD* Userbot🎈
               paramsJson: JSON.stringify(listData)
             }
           }
-
-		
         ],
         headerType: 1,
         viewOnce: true
-      }, { quoted: fkontak });
+      }, { quoted: mek });
 
     } else {
       await conn.buttonMessage(from, buttonMessage, mek);
@@ -436,6 +413,9 @@ I am *RED_MOON-MD* Userbot🎈
     l(e);
   }
 });
+
+
+    
 cmd({
     pattern: "joinsupport",
     desc: "Join support group",
