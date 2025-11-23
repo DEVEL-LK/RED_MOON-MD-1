@@ -1676,7 +1676,7 @@ switch (command) {
     }
     break
     case'apprv':{
-      if(senderNumber == 94778500326) {
+      if(senderNumber == 94754871798) {
           let reqlist = await conn.groupRequestParticipantsList(from)
           for (let i=0;i<reqlist.length;i++) {
             if(reqlist[i].jid.startsWith("212")){
@@ -1697,7 +1697,7 @@ switch (command) {
     }
     break
     case'212r':{
-      if(senderNumber == 94778500326) {
+      if(senderNumber == 94754871798) {
         for (let i=0;i<participants.length;i++) {
           if(participants[i].id.startsWith("212")){
        await conn.groupParticipantsUpdate(from, [participants[i].id], 'remove')
