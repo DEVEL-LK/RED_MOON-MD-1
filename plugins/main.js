@@ -368,7 +368,7 @@ async (conn, mek, { from, pushname, prefix, reply, l }) => {
         title: "Select Menu :)",
         sections: [
           {
-            title: "VISPER-MD",
+            title: "RED_MOON-MD",
             rows: [
               { title: "MAIN COMMANDS", description:"Main command menu", id: `${prefix}mainmenu` },
               { title: "OWNER COMMANDS", description:"Owner command menu", id: `${prefix}ownermenu` },
