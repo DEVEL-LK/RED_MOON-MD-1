@@ -178,7 +178,10 @@ conn.ev.on('connection.update', async (update) => {
 
 //====================
 
-				const mvSize = config.MV_SIZE;
+				
+// ================== CONFIG VARIABLES ==================
+
+const mvSize = config.MV_SIZE;
 const botName = config.NAME;
 const botJid = config.JID;
 const seedrMail = config.SEEDR_MAIL;
@@ -215,16 +218,15 @@ const values = config.VALUSE;
 const antiDelete = config.ANTI_DELETE;
 const leaveMsg = config.LEAVE_MSG;
 
-// 🔧 Logo fix
-const logo = (config.LOGO && config.LOGO !== "")
-    ? config.LOGO
-    : "https://files.catbox.moe/h131nw.jpg";
+// ================== FIXED LOGO ==================
+// Forced logo URL (DB override ignored)
+const logo = "https://files.catbox.moe/h131nw.jpg";
 
-// Build config message
+// ================== BUILD CONFIG MESSAGE ==================
 const can = `
 *📤 BOT SETTINGS AVAIBLE BRO 📤*
 
-*\`• Owner Number :\`* ${DEFAULT_OWNER_JID || "Not Set"}
+*\`• Owner Number :\`* ${config.OWNER_NUMBER || "Not Set"}
 *\`• Bot Name :\`* ${botName || "Not Set"}
 *\`• Bot JID :\`* ${botJid || "Not Set"}
 *\`• Seedr Mail :\`* ${seedrMail || "Not Set"}
@@ -262,6 +264,9 @@ const can = `
 *\`• Anti Delete :\`* ${antiDelete ?? "off"}
 *\`• Leave Msg :\`* ${leaveMsg || "None"}
 `;
+
+// ================== EXPORT OR USE ==================
+module.exports = { can, logo };
 
      let joinlink2 = await fetchJson('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json');
         
