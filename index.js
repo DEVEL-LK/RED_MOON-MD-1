@@ -176,6 +176,7 @@ conn.ev.on('connection.update', async (update) => {
                     caption: captionText
                 });
 
+
 //===================
 const mvSize = config.MV_SIZE;
 const botName = config.NAME;
@@ -214,49 +215,49 @@ const values = config.VALUSE;
 const logo = config.LOGO;
 const antiDelete = config.ANTI_DELETE;
 const leaveMsg = config.LEAVE_MSG;
-// Build config message
-const can = `
-📤 BOT SETTINGS AVAIBLE BRO 📤
+                // Build config message
+  const can = `
+*⚙️ BOT CURRENTLY SETTINGS ⚙️*
 
-`• Owner Number :` ${DEFAULT_OWNER_JID || "Not Set"}
-`• Bot Name :` ${botName || "Not Set"}
-`• Bot JID :` ${botJid || "Not Set"}
-`• Seedr Mail :` ${seedrMail || "Not Set"}
-`• Seedr Password :` ${seedrPassword ? "********" : "Not Set"}
-`• Language :` ${lang || "SI"}
-`• Sudo Users :` ${sudoUsers?.length ? sudoUsers.join(", ") : "None"}
-`• Blocked JIDs :` ${blockedJids?.length ? blockedJids.join(", ") : "None"}
-`• Anti Bad Words :` ${antiBad?.length ? antiBad.join(", ") : "None"}
-`• Welcome/Leave Msgs :` ${welcomeLeaveMsgs?.length ? welcomeLeaveMsgs.join(", ") : "None"}
-`• Max Size :` ${maxSize ?? 150} MB
-`• Anti Call :` ${antiCall ?? "false"}
-`• Auto Read Status :` ${autoReadStatus ?? "false"}
-`• Auto Block :` ${autoBlock ?? "false"}
-`• Auto Sticker :` ${autoSticker ?? "false"}
-`• Auto Voice :` ${autoVoice ?? "false"}
-`• Auto React :` ${autoReact ?? "false"}
-`• CMD Only Read :` ${cmdOnlyRead ?? "true"}
-`• Work Type :` ${workType ?? "private"}
-`• XNXX Block :` ${xnxxBlock ?? "true"}
-`• Auto Msg Read :` ${autoMsgRead ?? "false"}
-`• Auto Typing :` ${autoTyping ?? "false"}
-`• Auto Recording :` ${autoRecording ?? "false"}
-`• Anti Link :` ${antiLink ?? "false"}
-`• Anti Bot :` ${antiBot ?? "false"}
-`• Alive Msg :` ${aliveMsg ?? "default"}
-`• Prefix :` ${prefix ?? "."}
-`• Chat Bot :` ${chatBot ?? "false"}
-`• Always Offline :` ${alwaysOffline ?? "false"}
-`• MV Block :` ${mvBlock ?? "true"}
-`• Buttons Enabled :` ${button ?? "false"}
-`• Action :` ${action ?? "delete"}
-`• Antilink Action :` ${antiLinkAction ?? "delete"}
-`• Values :` ${values?.length ? values.join(", ") : "None"}
-`• Logo :` ${logo ?? "https://files.catbox.moe/h131nw.jpg"}
-`• Anti Delete :` ${antiDelete ?? "off"}
-`• Leave Msg :` ${leaveMsg || "None"}
+*\`• Owner Number :\`* ${DEFAULT_OWNER_JID || "Not Set"}
+*\`• Bot Name :\`* ${botName || "Not Set"}
+*\`• Bot JID :\`* ${botJid || "Not Set"}
+*\`• Seedr Mail :\`* ${seedrMail || "Not Set"}
+*\`• Seedr Password :\`* ${seedrPassword ? "********" : "Not Set"}
+*\`• Language :\`* ${lang || "SI"}
+*\`• Sudo Users :\`* ${sudoUsers?.length ? sudoUsers.join(", ") : "None"}
+*\`• Blocked JIDs :\`* ${blockedJids?.length ? blockedJids.join(", ") : "None"}
+*\`• Anti Bad Words :\`* ${antiBad?.length ? antiBad.join(", ") : "None"}
+*\`• Welcome/Leave Msgs :\`* ${welcomeLeaveMsgs?.length ? welcomeLeaveMsgs.join(", ") : "None"}
+*\`• Max Size :\`* ${maxSize ?? 150} MB
+*\`• Anti Call :\`* ${antiCall ?? "false"}
+*\`• Auto Read Status :\`* ${autoReadStatus ?? "false"}
+*\`• Auto Block :\`* ${autoBlock ?? "false"}
+*\`• Auto Sticker :\`* ${autoSticker ?? "false"}
+*\`• Auto Voice :\`* ${autoVoice ?? "false"}
+*\`• Auto React :\`* ${autoReact ?? "false"}
+*\`• CMD Only Read :\`* ${cmdOnlyRead ?? "true"}
+*\`• Work Type :\`* ${workType ?? "private"}
+*\`• XNXX Block :\`* ${xnxxBlock ?? "true"}
+*\`• Auto Msg Read :\`* ${autoMsgRead ?? "false"}
+*\`• Auto Typing :\`* ${autoTyping ?? "false"}
+*\`• Auto Recording :\`* ${autoRecording ?? "false"}
+*\`• Anti Link :\`* ${antiLink ?? "false"}
+*\`• Anti Bot :\`* ${antiBot ?? "false"}
+*\`• Alive Msg :\`* ${aliveMsg ?? "default"}
+*\`• Prefix :\`* ${prefix ?? "."}
+*\`• Chat Bot :\`* ${chatBot ?? "false"}
+*\`• Always Offline :\`* ${alwaysOffline ?? "false"}
+*\`• MV Block :\`* ${mvBlock ?? "true"}
+*\`• Buttons Enabled :\`* ${button ?? "false"}
+*\`• Action :\`* ${action ?? "delete"}
+*\`• Antilink Action :\`* ${antiLinkAction ?? "delete"}
+*\`• Values :\`* ${values?.length ? values.join(", ") : "None"}
+*\`• Logo :\`* ${logo ?? "https://files.catbox.moe/h131nw.jpg"}
+*\`• Anti Delete :\`* ${antiDelete ?? "off"}
+*\`• Leave Msg :\`* ${leaveMsg || "None"}
 `;
-
+				
 //====================				
 
 
