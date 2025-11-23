@@ -18,7 +18,4 @@ module.exports = {
     OWNER_NUMBER: '94754871798',
     TG_GROUP: 'https://t.me/+RedMoon-Mdexpor',
 
-    // New config fields
-    ALIVE_IMG: 'https://files.catbox.moe/h131nw.jpg',  // Alive image
-    MENU_IMG: 'https://files.catbox.moe/h131nw.jpg',   // Menu image
 };
