@@ -316,7 +316,7 @@ async (conn, mek, m, { from, pushname, prefix,  reply, l }) => {
     const rtime = await runtime(process.uptime());
 const number = conn.user.id.split(':')[0].replace(/@s\.whatsapp\.net$/, '');
     const caption =  `*Hello ${pushname}  👋*
-I am *VISPER-MD* Userbot🎈
+I am *RED_MOON-MD* Userbot🎈
 *┌────────────────────┐*
 *├ \`⏰ 𝐔𝐩𝐭𝐢𝐦𝐞\`* : ${rtime}
 *├ \`🚨 𝐇𝐨𝐬𝐭\`* : ${hostname}
@@ -324,15 +324,15 @@ I am *VISPER-MD* Userbot🎈
 *├ \`👤 𝐔𝐬𝐞𝐫\`* : ${pushname}
 *├ \`⛵ 𝐑𝐚𝐦 𝐮𝐬𝐬𝐚𝐠𝐞\`* : ${ramUsage}
 *├ \`👨🏻‍💻 𝐎𝐰𝐧𝐞𝐫\`* : ${number}
-*├ \`⚖ 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫𝐬\`* : *VISPER ᴵᴺᶜ*
-*├ \`🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧\`* : 4.0.0
+*├ \`⚖ 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫𝐬\`* : *LOAD DILISHA*
+*├ \`🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧\`* : 2.0.0
 *├ \`💼 𝐖𝐨𝐫𝐤 𝐓𝐲𝐩𝐞\`* : ${config.WORK_TYPE}
 *└────────────────────┘*
 
 *🫟 Your all-in-one WhatsApp assistant — fast, reliable, and easy to use!*`;
 
  const captionn =  `*Hello ${pushname}  👋*
-I am *VISPER-MD* Userbot🎈
+I am *RED_MOON-MD* Userbot🎈
 *┌────────────────────┐*
 *├ \`⏰ 𝐔𝐩𝐭𝐢𝐦𝐞\`* : ${rtime}
 *├ \`🚨 𝐇𝐨𝐬𝐭\`* : ${hostname}
@@ -340,8 +340,8 @@ I am *VISPER-MD* Userbot🎈
 *├ \`👤 𝐔𝐬𝐞𝐫\`* : ${pushname}
 *├ \`⛵ 𝐑𝐚𝐦 𝐮𝐬𝐬𝐚𝐠𝐞\`* : ${ramUsage}
 *├ \`👨🏻‍💻 𝐎𝐰𝐧𝐞𝐫\`* : ${number}
-*├ \`⚖ 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫𝐬\`* : *VISPER ᴵᴺᶜ*
-*├ \`🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧\`* : 4.0.0
+*├ \`⚖ 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫𝐬\`* : *LOAD DILISHA*
+*├ \`🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧\`* : 2.0.0
 *├ \`💼 𝐖𝐨𝐫𝐤 𝐓𝐲𝐩𝐞\`* : ${config.WORK_TYPE}
 *└────────────────────┘*
 
@@ -350,18 +350,15 @@ I am *VISPER-MD* Userbot🎈
 	  
 
     // 🔐 Load image from URL as Buffer (safe)
-    let imageBuffer;
-    try {
-      if (!config.LOGO || !config.LOGO.startsWith('http')) {
-        throw new Error("Invalid config.LOGO URL");
-      }
-      const res = await axios.get(config.LOGO, { responseType: 'arraybuffer' });
-      imageBuffer = Buffer.from(res.data, 'binary');
-      if (!Buffer.isBuffer(imageBuffer)) throw new Error("Not a valid buffer");
-    } catch (err) {
-      console.error("❌ Failed to load image:", err.message);
-      return reply("⚠️ Could not load menu image. Check your LOGO URL.");
-    }
+let imageBuffer;
+try {
+  const res = await axios.get("https://files.catbox.moe/h131nw.jpg", { responseType: 'arraybuffer' });
+  imageBuffer = Buffer.from(res.data, 'binary');
+  if (!Buffer.isBuffer(imageBuffer)) throw new Error("Not a valid buffer");
+} catch (err) {
+  console.error("❌ Failed to load image:", err.message);
+  return reply("⚠️ Could not load menu image. Check the direct URL.");
+}
 
     const buttons = [
       { buttonId: prefix + 'mainmenu', buttonText: { displayText: 'MAIN COMMANDS' }, type: 1 },
