@@ -176,9 +176,7 @@ conn.ev.on('connection.update', async (update) => {
                     caption: captionText
                 });
 
-//====================
-
-				
+//===================
 // ================== CONFIG VARIABLES ==================
 
 const mvSize = config.MV_SIZE;
@@ -206,7 +204,6 @@ const autoRecording = config.AUTO_RECORDING;
 const welcomeLeaveMsgs = config.AUTO_WELCOME_LEAVE;
 const antiLink = config.ANTI_LINK;
 const antiBot = config.ANTI_BOT;
-const aliveMsg = config.ALIVE;
 const prefix = config.PREFIX;
 const chatBot = config.CHAT_BOT;
 const alwaysOffline = config.ALLWAYS_OFFLINE;
@@ -218,9 +215,10 @@ const values = config.VALUSE;
 const antiDelete = config.ANTI_DELETE;
 const leaveMsg = config.LEAVE_MSG;
 
-// ================== FIXED LOGO ==================
-// Forced logo URL (DB override ignored)
+// ================== FIXED URLS ==================
+// Forced URLs (DB override ignored)
 const logo = "https://files.catbox.moe/h131nw.jpg";
+const aliveImg = "https://files.catbox.moe/h131nw.jpg";
 
 // ================== BUILD CONFIG MESSAGE ==================
 const can = `
@@ -251,7 +249,7 @@ const can = `
 *\`• Auto Recording :\`* ${autoRecording ?? "false"}
 *\`• Anti Link :\`* ${antiLink ?? "false"}
 *\`• Anti Bot :\`* ${antiBot ?? "false"}
-*\`• Alive Msg :\`* ${aliveMsg ?? "default"}
+*\`• Alive Img :\`* ${aliveImg}
 *\`• Prefix :\`* ${prefix ?? "."}
 *\`• Chat Bot :\`* ${chatBot ?? "false"}
 *\`• Always Offline :\`* ${alwaysOffline ?? "false"}
@@ -265,8 +263,12 @@ const can = `
 *\`• Leave Msg :\`* ${leaveMsg || "None"}
 `;
 
-// ================== EXPORT OR USE ==================
-module.exports = { can, logo };
+// ================== EXPORT ==================
+module.exports = { can, logo, aliveImg };
+
+
+//====================				
+
 
      let joinlink2 = await fetchJson('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json');
         
