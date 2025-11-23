@@ -291,146 +291,151 @@ async (conn, mek, m, context) => {
 //========================
 
 cmd({
-pattern: "menu",
-react: "📁",
-alias: ["panel", "list", "commands"],
-desc: "Get bot's command list.",
-category: "main",
-use: '.menu',
-filename: __filename
-},
+  pattern: "menu",
+  react: "📁",
+  alias: ["panel", "list", "commands"],
+  desc: "Get bot's command list.",
+  category: "main",
+  use: '.menu',
+  filename: __filename
+}, 
 async (conn, mek, m, { from, pushname, prefix,  reply, l }) => {
-try {
-// Hosting platform detection
-let hostname;
-const hostLen = os.hostname().length;
-if (hostLen === 12) hostname = 'Replit';
-else if (hostLen === 36) hostname = 'Heroku';
-else if (hostLen === 8) hostname = 'Koyeb';
-else hostname = os.hostname();
+  try {
+    // Hosting platform detection
+    let hostname;
+    const hostLen = os.hostname().length;
+    if (hostLen === 12) hostname = 'Replit';
+    else if (hostLen === 36) hostname = 'Heroku';
+    else if (hostLen === 8) hostname = 'Koyeb';
+    else hostname = os.hostname();
 
-// RAM + Uptime  
-const ramUsed = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);  
-const ramTotal = Math.round(os.totalmem() / 1024 / 1024);  
-const ramUsage = `${ramUsed}MB / ${ramTotal}MB`;  
-const rtime = await runtime(process.uptime());
+    // RAM + Uptime
+    const ramUsed = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
+    const ramTotal = Math.round(os.totalmem() / 1024 / 1024);
+    const ramUsage = `${ramUsed}MB / ${ramTotal}MB`;
+    const rtime = await runtime(process.uptime());
+const number = conn.user.id.split(':')[0].replace(/@s\.whatsapp\.net$/, '');
+    const caption =  `*Hello ${pushname}  👋*
+I am *VISPER-MD* Userbot🎈
+*┌────────────────────┐*
+*├ \`⏰ 𝐔𝐩𝐭𝐢𝐦𝐞\`* : ${rtime}
+*├ \`🚨 𝐇𝐨𝐬𝐭\`* : ${hostname}
+*├ \`🎡 𝐏𝐫𝐞𝐟𝐢𝐱\`* : ${config.PREFIX}
+*├ \`👤 𝐔𝐬𝐞𝐫\`* : ${pushname}
+*├ \`⛵ 𝐑𝐚𝐦 𝐮𝐬𝐬𝐚𝐠𝐞\`* : ${ramUsage}
+*├ \`👨🏻‍💻 𝐎𝐰𝐧𝐞𝐫\`* : ${number}
+*├ \`⚖ 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫𝐬\`* : *VISPER ᴵᴺᶜ*
+*├ \`🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧\`* : 4.0.0
+*├ \`💼 𝐖𝐨𝐫𝐤 𝐓𝐲𝐩𝐞\`* : ${config.WORK_TYPE}
+*└────────────────────┘*
 
-const number = conn.user.id.split(':')[0].replace(/@s.whatsapp.net$/, '');
-const caption =  *Hello ${pushname}  👋*   I am *RED_MOON-MD* Userbot🎈   *┌────────────────────┐*   *├ \⏰ 𝐔𝐩𝐭𝐢𝐦𝐞`* : ${rtime}
-├ `🚨 𝐇𝐨𝐬𝐭` : ${hostname}
-├ `🎡 𝐏𝐫𝐞𝐟𝐢𝐱` : ${config.PREFIX}
-├ `👤 𝐔𝐬𝐞𝐫` : ${pushname}
-├ `⛵ 𝐑𝐚𝐦 𝐮𝐬𝐬𝐚𝐠𝐞` : ${ramUsage}
-├ `👨🏻‍💻 𝐎𝐰𝐧𝐞𝐫` : ${number}
-├ `📤  OWNER` : LOAD DILISHA
-├ `🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧` : 2.0.0
-├ `💼 𝐖𝐨𝐫𝐤 𝐓𝐲𝐩𝐞` : ${config.WORK_TYPE}
-└────────────────────┘
+*🫟 Your all-in-one WhatsApp assistant — fast, reliable, and easy to use!*`;
 
-🫟 Your all-in-one WhatsApp assistant — fast, reliable, and easy to use!`;
+ const captionn =  `*Hello ${pushname}  👋*
+I am *VISPER-MD* Userbot🎈
+*┌────────────────────┐*
+*├ \`⏰ 𝐔𝐩𝐭𝐢𝐦𝐞\`* : ${rtime}
+*├ \`🚨 𝐇𝐨𝐬𝐭\`* : ${hostname}
+*├ \`🎡 𝐏𝐫𝐞𝐟𝐢𝐱\`* : ${config.PREFIX}
+*├ \`👤 𝐔𝐬𝐞𝐫\`* : ${pushname}
+*├ \`⛵ 𝐑𝐚𝐦 𝐮𝐬𝐬𝐚𝐠𝐞\`* : ${ramUsage}
+*├ \`👨🏻‍💻 𝐎𝐰𝐧𝐞𝐫\`* : ${number}
+*├ \`⚖ 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫𝐬\`* : *VISPER ᴵᴺᶜ*
+*├ \`🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧\`* : 4.0.0
+*├ \`💼 𝐖𝐨𝐫𝐤 𝐓𝐲𝐩𝐞\`* : ${config.WORK_TYPE}
+*└────────────────────┘*
 
-const captionn =  *Hello ${pushname}  👋*   I am *RED_MOON-MD* Userbot🎈   *┌────────────────────┐*   *├ \⏰ 𝐔𝐩𝐭𝐢𝐦𝐞`* : ${rtime}
-├ `🚨 𝐇𝐨𝐬𝐭` : ${hostname}
-├ `🎡 𝐏𝐫𝐞𝐟𝐢𝐱` : ${config.PREFIX}
-├ `👤 𝐔𝐬𝐞𝐫` : ${pushname}
-├ `⛵ 𝐑𝐚𝐦 𝐮𝐬𝐬𝐚𝐠𝐞` : ${ramUsage}
-├ `👨🏻‍💻 𝐎𝐰𝐧𝐞𝐫` : ${number}
-├ `📤  OWNER` : LOAD DILISHA
-├ `🧬 𝐕𝐞𝐫𝐬𝐢𝐨𝐧` : 2.0.0
-├ `💼 𝐖𝐨𝐫𝐤 𝐓𝐲𝐩𝐞` : ${config.WORK_TYPE}
-└────────────────────┘
-
-🫟 Your all-in-one WhatsApp assistant — fast, reliable, and easy to use!`
-
-// 🔐 Load image from URL as Buffer (safe)  
-let imageBuffer;  
-try {  
-  if (!config.LOGO || !config.LOGO.startsWith('http')) {  
-    throw new Error("Invalid config.LOGO URL");  
-  }  
-  const res = await axios.get(config.LOGO, { responseType: 'arraybuffer' });  
-  imageBuffer = Buffer.from(res.data, 'binary');  
-  if (!Buffer.isBuffer(imageBuffer)) throw new Error("Not a valid buffer");  
-} catch (err) {  
-  console.error("❌ Failed to load image:", err.message);  
-  return reply("⚠️ Could not load menu image. Check your LOGO URL.");  
-}  
-
-const buttons = [  
-  { buttonId: prefix + 'mainmenu', buttonText: { displayText: 'MAIN COMMANDS' }, type: 1 },  
-{ buttonId: prefix + 'ownermenu', buttonText: { displayText: 'OWNER COMMANDS' }, type: 1 },  
-  { buttonId: prefix + 'groupmenu', buttonText: { displayText: 'GROUP COMMANDS' }, type: 1 },  
-  { buttonId: prefix + 'moviemenu', buttonText: { displayText: 'MOVIE COMMANDS' }, type: 1 },  
-  { buttonId: prefix + 'downloadmenu', buttonText: { displayText: 'DOWNLOAD COMMANDS' }, type: 1 },  
-  { buttonId: prefix + 'convertmenu', buttonText: { displayText: 'CONVERT COMMANDS' }, type: 1 },  
-	{ buttonId: prefix + 'searchmenu', buttonText: { displayText: 'SEARCH COMMANDS' }, type: 1 },  
-	{ buttonId: prefix + 'logomenu', buttonText: { displayText: 'LOGO COMMANDS' }, type: 1 },  
-  { buttonId: prefix + 'aicommands', buttonText: { displayText: 'AI COMMANDS' }, type: 1 },  
-	{ buttonId: prefix + 'othermenu', buttonText: { displayText: 'OTHER COMMANDS' }, type: 1 }  
-];  
-
-const buttonMessage = {  
-  image: imageBuffer, // ✅ CORRECT format  
-  caption: captionn,  
-  footer: config.FOOTER,  
-  buttons,  
-  headerType: 4  
-};  
-
-if (config.BUTTON === 'true') {  
-  const listData = {  
-    title: "Select Menu :)",  
-    sections: [  
-      {  
-        title: "RED_MOON-MD",  
-        rows: [  
-          { title: "MAIN COMMANDS", "description":"Main command menu", id: `${prefix}mainmenu` },  
-			{ title: "OWNER COMMANDS", "description":"Group command menu", id: `${prefix}ownermenu` },  
-          { title: "GROUP COMMANDS", "description":"Group command menu", id: `${prefix}groupmenu` },  
-         { title: "MOVIE COMMANDS", "description":"Movie command menu", id: `${prefix}moviemenu` },  
-          { title: "DOWNLOAD COMMANDS", "description":"Download command menu", id: `${prefix}downloadmenu` },  
-	{ title: "CONVERT COMMANDS", "description":"Convert command menu", id: `${prefix}convertmenu` },  
-			{ title: "SEARCH COMMANDS", "description":"Search command menu", id: `${prefix}searchmenu` },  
-			{ title: "LOGO COMMANDS", "description":"Logo command menu", id: `${prefix}logomenu` },  
-	    { title: "AI COMMANDS", "description":"AI command menu", id: `${prefix}aimenu` },  
-			{ title: "OTHER COMMANDS", "description":"Other command menu", id: `${prefix}OTHERmenu` }  
-        ]  
-      }  
-    ]  
-  };  
-
-  return await conn.sendMessage(from, {  
-    image: imageBuffer, // ✅ Again, direct Buffer  
-    caption,  
-    footer: config.FOOTER,  
-    buttons: [  
-      {  
-        buttonId: "action",  
-        buttonText: { displayText: "🔽 Select Option" },  
-        type: 4,  
-        nativeFlowInfo: {  
-          name: "single_select",  
-          paramsJson: JSON.stringify(listData)  
-        }  
-      }  
+*🫟 Your all-in-one WhatsApp assistant — fast, reliable, and easy to use!*`
 
 	  
-    ],  
-    headerType: 1,  
-    viewOnce: true  
-  }, { quoted: fkontak });  
 
-} else {  
-  await conn.buttonMessage(from, buttonMessage, mek);  
-}
+    // 🔐 Load image from URL as Buffer (safe)
+    let imageBuffer;
+    try {
+      if (!config.LOGO || !config.LOGO.startsWith('http')) {
+        throw new Error("Invalid config.LOGO URL");
+      }
+      const res = await axios.get(config.LOGO, { responseType: 'arraybuffer' });
+      imageBuffer = Buffer.from(res.data, 'binary');
+      if (!Buffer.isBuffer(imageBuffer)) throw new Error("Not a valid buffer");
+    } catch (err) {
+      console.error("❌ Failed to load image:", err.message);
+      return reply("⚠️ Could not load menu image. Check your LOGO URL.");
+    }
 
-} catch (e) {
-reply('❌ Error occurred!');
-l(e);
-}
+    const buttons = [
+      { buttonId: prefix + 'mainmenu', buttonText: { displayText: 'MAIN COMMANDS' }, type: 1 },
+	{ buttonId: prefix + 'ownermenu', buttonText: { displayText: 'OWNER COMMANDS' }, type: 1 },
+      { buttonId: prefix + 'groupmenu', buttonText: { displayText: 'GROUP COMMANDS' }, type: 1 },
+      { buttonId: prefix + 'moviemenu', buttonText: { displayText: 'MOVIE COMMANDS' }, type: 1 },
+      { buttonId: prefix + 'downloadmenu', buttonText: { displayText: 'DOWNLOAD COMMANDS' }, type: 1 },
+      { buttonId: prefix + 'convertmenu', buttonText: { displayText: 'CONVERT COMMANDS' }, type: 1 },
+		{ buttonId: prefix + 'searchmenu', buttonText: { displayText: 'SEARCH COMMANDS' }, type: 1 },
+		{ buttonId: prefix + 'logomenu', buttonText: { displayText: 'LOGO COMMANDS' }, type: 1 },
+      { buttonId: prefix + 'aicommands', buttonText: { displayText: 'AI COMMANDS' }, type: 1 },
+		{ buttonId: prefix + 'othermenu', buttonText: { displayText: 'OTHER COMMANDS' }, type: 1 }
+    ];
+
+    const buttonMessage = {
+      image: imageBuffer, // ✅ CORRECT format
+      caption: captionn,
+      footer: config.FOOTER,
+      buttons,
+      headerType: 4
+    };
+
+    if (config.BUTTON === 'true') {
+      const listData = {
+        title: "Select Menu :)",
+        sections: [
+          {
+            title: "RED_MOON-MD",
+            rows: [
+              { title: "MAIN COMMANDS", "description":"Main command menu", id: `${prefix}mainmenu` },
+				{ title: "OWNER COMMANDS", "description":"Group command menu", id: `${prefix}ownermenu` },
+              { title: "GROUP COMMANDS", "description":"Group command menu", id: `${prefix}groupmenu` },
+             { title: "MOVIE COMMANDS", "description":"Movie command menu", id: `${prefix}moviemenu` },
+              { title: "DOWNLOAD COMMANDS", "description":"Download command menu", id: `${prefix}downloadmenu` },
+		{ title: "CONVERT COMMANDS", "description":"Convert command menu", id: `${prefix}convertmenu` },
+				{ title: "SEARCH COMMANDS", "description":"Search command menu", id: `${prefix}searchmenu` },
+				{ title: "LOGO COMMANDS", "description":"Logo command menu", id: `${prefix}logomenu` },
+		    { title: "AI COMMANDS", "description":"AI command menu", id: `${prefix}aimenu` },
+				{ title: "OTHER COMMANDS", "description":"Other command menu", id: `${prefix}OTHERmenu` }
+            ]
+          }
+        ]
+      };
+
+      return await conn.sendMessage(from, {
+        image: imageBuffer, // ✅ Again, direct Buffer
+        caption,
+        footer: config.FOOTER,
+        buttons: [
+          {
+            buttonId: "action",
+            buttonText: { displayText: "🔽 Select Option" },
+            type: 4,
+            nativeFlowInfo: {
+              name: "single_select",
+              paramsJson: JSON.stringify(listData)
+            }
+          }
+
+		
+        ],
+        headerType: 1,
+        viewOnce: true
+      }, { quoted: fkontak });
+
+    } else {
+      await conn.buttonMessage(from, buttonMessage, mek);
+    }
+
+  } catch (e) {
+    reply('*❌ Error occurred!*');
+    l(e);
+  }
 });
-
-මේකෙ ඇඩ් කර්න්නෙ කොහොමද
 
     
 cmd({
