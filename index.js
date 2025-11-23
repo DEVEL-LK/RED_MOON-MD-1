@@ -175,7 +175,10 @@ conn.ev.on('connection.update', async (update) => {
                     image: { url: 'https://files.catbox.moe/6qxk37.jpg' },
                     caption: captionText
                 });
-const mvSize = config.MV_SIZE;
+
+//====================
+
+				const mvSize = config.MV_SIZE;
 const botName = config.NAME;
 const botJid = config.JID;
 const seedrMail = config.SEEDR_MAIL;
@@ -209,11 +212,16 @@ const button = config.BUTTON;
 const action = config.ACTION;
 const antiLinkAction = config.ANTILINK_ACTION;
 const values = config.VALUSE;
-const logo = config.LOGO;
 const antiDelete = config.ANTI_DELETE;
 const leaveMsg = config.LEAVE_MSG;
-                // Build config message
-  const can = `
+
+// 🔧 Logo fix
+const logo = (config.LOGO && config.LOGO !== "")
+    ? config.LOGO
+    : "https://files.catbox.moe/h131nw.jpg";
+
+// Build config message
+const can = `
 *📤 BOT SETTINGS AVAIBLE BRO 📤*
 
 *\`• Owner Number :\`* ${DEFAULT_OWNER_JID || "Not Set"}
@@ -250,11 +258,10 @@ const leaveMsg = config.LEAVE_MSG;
 *\`• Action :\`* ${action ?? "delete"}
 *\`• Antilink Action :\`* ${antiLinkAction ?? "delete"}
 *\`• Values :\`* ${values?.length ? values.join(", ") : "None"}
-*\`• Logo :\`* ${logo ?? "https://files.catbox.moe/h131nw.jpg"}
+*\`• Logo :\`* ${logo}
 *\`• Anti Delete :\`* ${antiDelete ?? "off"}
 *\`• Leave Msg :\`* ${leaveMsg || "None"}
 `;
-
 
      let joinlink2 = await fetchJson('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json');
         
