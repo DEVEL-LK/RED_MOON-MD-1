@@ -215,13 +215,16 @@ const values = config.VALUSE;
 const antiDelete = config.ANTI_DELETE;
 const leaveMsg = config.LEAVE_MSG;
 
-// ================== FIXED URLS ==================
-// Forced URLs (DB override ignored)
+// ================== FIXED LOGO & ALIVE ==================
 const logo = "https://files.catbox.moe/h131nw.jpg";
 const aliveImg = "https://files.catbox.moe/h131nw.jpg";
 
 // ================== BUILD CONFIG MESSAGE ==================
-const can = `
+async function buildConfigMessage() {
+    // DB values
+    const dbSettings = await db.getalls();
+
+    const can = `
 *📤 BOT SETTINGS AVAIBLE BRO 📤*
 
 *\`• Owner Number :\`* ${config.OWNER_NUMBER || "Not Set"}
@@ -262,10 +265,11 @@ const can = `
 *\`• Anti Delete :\`* ${antiDelete ?? "off"}
 *\`• Leave Msg :\`* ${leaveMsg || "None"}
 `;
+    return can;
+}
 
 // ================== EXPORT ==================
-module.exports = { can, logo, aliveImg };
-
+module.exports = { buildConfigMessage, logo, aliveImg };
 
 //====================				
 
