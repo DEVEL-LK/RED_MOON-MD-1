@@ -368,119 +368,108 @@ try {
 
 //=========================== tv series ======================================
 
-
+//=========================== tv series ======================================
 cmd({
-  pattern: "s2tv",	
-  react: '📺',
-  category: "movie",
-  alias: ["s2tv"],
-  desc: "Search TV shows from sinhalasub.lk",
-  use: ".s2tv 2025",
-  filename: __filename
-}, async (conn, m, mek, { from, q, prefix, isPre, isMe, isSudo, isOwner, reply }) => {
-  try {
+    pattern: "s2tv",
+    react: '📺',
+    category: "movie",
+    alias: ["s2tv"],
+    desc: "Search TV shows from sinhalasub.lk",
+    use: ".s2tv 2025",
+    filename: __filename
+}, 
+async (conn, m, mek, { from, q, prefix, isPre, isMe, isSudo, isOwner, reply }) => {
+try {
+
     const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
     const isFree = pr.mvfree === "true";
 
     if (!isFree && !isMe && !isPre) {
-      await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-      return await conn.sendMessage(from, { 
-        text: "*`You are not a premium user⚠️`*\n\n" +
-              "*Send a message to one of the numbers below and buy Lifetime Premium 📤.*\n\n" +
-              "_Price : 100 LKR ✔️_\n\n" +
-              "*👨‍💻Contact us : 94754871798*" 
-      }, { quoted: mek });
+        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+        return await conn.sendMessage(from, {
+            text: "*`You are not a premium user⚠️`*\n\n" +
+                  "*Send a message to one of the numbers below and buy Lifetime Premium 📤.*\n\n" +
+                  "_Price : 100 LKR ✔️_\n\n" +
+                  "*👨‍💻Contact us : 94754871798*"
+        }, { quoted: mek });
     }
 
     if (config.MV_BLOCK == "true" && !isMe && !isSudo && !isOwner) {
-      await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-      return await conn.sendMessage(from, { 
-        text: "*This command is currently locked for public users 🔒*\n_Use .settings to unlock it 👨‍🔧_" 
-      }, { quoted: mek });
+        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+        return await conn.sendMessage(from, {
+            text: "*This command is currently locked for public users 🔒*\n_Use .settings to unlock it 👨‍🔧_"
+        }, { quoted: mek });
     }
 
     if (!q) return await reply('*Please enter a search term, e.g. `.sinhalasubtv Loki`*');
 
-    // ✅ Using your provided API
-    const response = await axios.get(`https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/search?q=${encodeURIComponent(q)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
+    // Fetch from updated API
+    const res = await axios.get(`https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/search?q=${encodeURIComponent(q)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
+
     let data = [];
-    if (Array.isArray(response.data)) data = response.data;
-    else if (Array.isArray(response.data.result)) data = response.data.result;
+    if (Array.isArray(res.data)) data = res.data;
+    else if (Array.isArray(res.data.result)) data = res.data.result;
     else return await reply('🚫 *No TV show results found or invalid API response!*');
 
-    // 🧩 Filter only TV Shows
+    // Filter TV shows only
     const results = data.filter(v => /tv|series|season/i.test(v.Title));
+    if (results.length === 0) return await reply('*No TV show results found ❌*');
 
-    if (results.length === 0) {
-      await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-      return await conn.sendMessage(from, { text: '*No TV show results found ❌*' }, { quoted: mek });
-    }
-
-    // 🧾 Format list message
     const srh = results.map(v => ({
-      title: v.Title.replace("Sinhala Subtitles | සිංහල උපසිරසි සමඟ", "").trim(),
-      description: '',
-      rowId: prefix + 'sintvinfo ' + v.Link
+        title: v.Title.replace("Sinhala Subtitles | සිංහල උපසිරසි සමඟ", "").trim(),
+        description: '',
+        rowId: prefix + 'sintvinfo ' + v.Link
     }));
 
-    const sections = [{
-      title: "🎬 sinhalasub.lk - TV Shows Results",
-      rows: srh
-    }];
-
+    const sections = [{ title: "🎬 sinhalasub.lk - TV Shows Results", rows: srh }];
     const caption = `*_SINHALASUB TV SHOW SEARCH RESULTS 📺_*\n\n*🔍 Input:* ${q}`;
 
     if (config.BUTTON === "true") {
-      const rowss = results.map(v => ({
-        title: v.Title.replace(/WEBDL|BluRay|HD|FHD|SD|Telegram/gi, "").trim(),
-        id: prefix + `sintvinfo ${v.Link}`
-      }));
+        const rowss = results.map(v => ({
+            title: v.Title.replace(/WEBDL|BluRay|HD|FHD|SD|Telegram/gi, "").trim(),
+            id: prefix + `sintvinfo ${v.Link}`
+        }));
 
-      const listButtons = {
-        title: "Choose a TV Show 🎥",
-        sections: [
-          {
-            title: "Available TV Shows",
-            rows: rowss
-          }
-        ]
-      };
+        const listButtons = {
+            title: "Choose a TV Show 🎥",
+            sections: [{ title: "Available TV Shows", rows: rowss }]
+        };
 
-      await conn.sendMessage(from, {
-        image: { url: config.LOGO },
-        caption: caption,
-        footer: config.FOOTER,
-        buttons: [
-          {
-            buttonId: "tv_list",
-            buttonText: { displayText: "📺 Select TV Show" },
-            type: 4,
-            nativeFlowInfo: {
-              name: "single_select",
-              paramsJson: JSON.stringify(listButtons)
-            }
-          }
-        ],
-        headerType: 1,
-        viewOnce: true
-      }, { quoted: mek });
-
+        await conn.sendMessage(from, {
+            image: { url: config.LOGO },
+            caption: caption,
+            footer: config.FOOTER,
+            buttons: [
+                {
+                    buttonId: "tv_list",
+                    buttonText: { displayText: "📺 Select TV Show" },
+                    type: 4,
+                    nativeFlowInfo: {
+                        name: "single_select",
+                        paramsJson: JSON.stringify(listButtons)
+                    }
+                }
+            ],
+            headerType: 1,
+            viewOnce: true
+        }, { quoted: mek });
     } else {
-      const listMessage = {
-        text: caption,
-        footer: config.FOOTER,
-        title: 'sinhalasub.lk results 🎬',
-        buttonText: '*Reply with number 🔢*',
-        sections
-      };
-      await conn.listMessage(from, listMessage, mek);
+        const listMessage = {
+            text: caption,
+            footer: config.FOOTER,
+            title: 'sinhalasub.lk results 🎬',
+            buttonText: '*Reply with number 🔢*',
+            sections
+        };
+        await conn.listMessage(from, listMessage, mek);
     }
 
-  } catch (e) {
+} catch (e) {
     reply('🚫 *Error occurred !!*\n\n' + e);
     console.log(e);
-  }
+}
 });
+
 
 //=======================================
 
