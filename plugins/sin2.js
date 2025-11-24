@@ -368,11 +368,6 @@ try {
 
 //=========================== tv series ======================================
 
-හරි, මේකයි කරන්න ඕනෙ. ඔයා දුන්න full code එකේ original structure, emojis, buttons, aliases කිසිම දෙයක් වෙනස් නොකර, .s2tv සහ TV series API URLs ඔයා දුන්න API URLs වලට replace කරලා තියෙන version එක.
-
-මේක ඔයාට copy-paste කරන්න පුළුවන්:
-
-//=========================== tv series ======================================
 
 cmd({
   pattern: "s2tv",	
