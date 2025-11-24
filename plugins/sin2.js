@@ -26,7 +26,10 @@ const { slanimeclub_search, slanimeclub_ep, slanimeclub_dl, slanimeclub_mv_searc
 const { sizeFormatter} = require('human-readable');
 const { xfull_search, xfull_dl } = require('../lib/plusmv');
 const { search, getep, dl } = require('darksadasyt-anime')
-
+const API_KEY = 'c56182a993f60b4f49cf97ab09886d17';
+const SEARCH_API = 'https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/search?';
+const MOVIE_DL_API = 'https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/infodl?';
+const TV_DL_API = 'https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/tv/dl?';
 
 //==========================================================================================================
 
@@ -404,8 +407,8 @@ try {
     if (!q) return await reply('*Please enter a search term, e.g. `.sinhalasubtv Loki`*');
 
     // Fetch from updated API
-    const res = await axios.get(`https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/search?q=${encodeURIComponent(q)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
-
+    const searchUrl = `${SEARCH_API}q=${encodeURIComponent(searchQuery)}&apiKey=${API_KEY}`;
+            
     let data = [];
     if (Array.isArray(res.data)) data = res.data;
     else if (Array.isArray(res.data.result)) data = res.data.result;
@@ -492,7 +495,8 @@ async (conn, mek, m, { from, q, prefix, reply, isOwner, isMe }) => {
     }
 
     // ✅ Using your provided API
-    const { data } = await axios.get(`https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/tv/info?q=${encodeURIComponent(q)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
+    const dlBaseUrl = isTvEpisode ? TV_DL_API : MOVIE_DL_API;
+                const downloadUrl = `${dlBaseUrl}q=${encodeURIComponent(selectedFilm.link)}&apiKey=${API_KEY}`;
 
     if (!data || !data.result) {
       await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
