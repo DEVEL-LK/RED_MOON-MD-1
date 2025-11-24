@@ -368,6 +368,12 @@ try {
 
 //=========================== tv series ======================================
 
+හරි, මේකයි කරන්න ඕනෙ. ඔයා දුන්න full code එකේ original structure, emojis, buttons, aliases කිසිම දෙයක් වෙනස් නොකර, .s2tv සහ TV series API URLs ඔයා දුන්න API URLs වලට replace කරලා තියෙන version එක.
+
+මේක ඔයාට copy-paste කරන්න පුළුවන්:
+
+//=========================== tv series ======================================
+
 cmd({
   pattern: "s2tv",	
   react: '📺',
@@ -376,116 +382,116 @@ cmd({
   desc: "Search TV shows from sinhalasub.lk",
   use: ".s2tv 2025",
   filename: __filename
-},
-async (conn, m, mek, { from, q, prefix, isPre, isMe, isSudo, isOwner, reply }) => {
-try {
+}, async (conn, m, mek, { from, q, prefix, isPre, isMe, isSudo, isOwner, reply }) => {
+  try {
+    const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
+    const isFree = pr.mvfree === "true";
 
-  const pr = (await axios.get('https://raw.githubusercontent.com/WhiteLK122/NATSU-DATABASE/refs/heads/main/main_var.json')).data;
+    if (!isFree && !isMe && !isPre) {
+      await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+      return await conn.sendMessage(from, { 
+        text: "*`You are not a premium user⚠️`*\n\n" +
+              "*Send a message to one of the numbers below and buy Lifetime Premium 📤.*\n\n" +
+              "_Price : 100 LKR ✔️_\n\n" +
+              "*👨‍💻Contact us : 94754871798*" 
+      }, { quoted: mek });
+    }
 
-  // Convert string to boolean
-  const isFree = pr.mvfree === "true";
+    if (config.MV_BLOCK == "true" && !isMe && !isSudo && !isOwner) {
+      await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+      return await conn.sendMessage(from, { 
+        text: "*This command is currently locked for public users 🔒*\n_Use .settings to unlock it 👨‍🔧_" 
+      }, { quoted: mek });
+    }
 
-  // If not free and not premium or owner
-  if (!isFree && !isMe && !isPre) {
-    await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-    return await conn.sendMessage(from, {
-      text: "*`You are not a premium user⚠️`*\n\n" +
-            "*Send a message to one of the numbers below and buy Lifetime Premium 📤.*\n\n" +
-            "_Price : 100 LKR ✔️_\n\n" +
-            "*👨‍💻Contact us : 94754871798*"
-    }, { quoted: mek });
-  }
+    if (!q) return await reply('*Please enter a search term, e.g. `.sinhalasubtv Loki`*');
 
-  if (config.MV_BLOCK == "true" && !isMe && !isSudo && !isOwner) {
-    await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-    return await conn.sendMessage(from, {
-      text: "*This command is currently locked for public users 🔒*\n_Use .settings to unlock it 👨‍🔧_"
-    }, { quoted: mek });
-  }
+    // ✅ Using your provided API
+    const response = await axios.get(`https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/search?q=${encodeURIComponent(q)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
+    let data = [];
+    if (Array.isArray(response.data)) data = response.data;
+    else if (Array.isArray(response.data.result)) data = response.data.result;
+    else return await reply('🚫 *No TV show results found or invalid API response!*');
 
-  if (!q) return await reply('*Please enter a search term, e.g. `.sinhalasubtv Loki`*');
+    // 🧩 Filter only TV Shows
+    const results = data.filter(v => /tv|series|season/i.test(v.Title));
 
-  const { data } = await axios.get(`https://visper-md-ap-is.vercel.app/movie/sinhalasub/search?q=${encodeURIComponent(q)}`);
+    if (results.length === 0) {
+      await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+      return await conn.sendMessage(from, { text: '*No TV show results found ❌*' }, { quoted: mek });
+    }
 
-  // 🧩 Filter only TV Shows
-  const results = data.filter(v => 
-    /tv|series|season/i.test(v.Title)
-  );
-
-  if (results.length === 0) {
-    await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-    return await conn.sendMessage(from, { text: '*No TV show results found ❌*' }, { quoted: mek });
-  }
-
-  // 🧾 Format list message
-  const srh = results.map(v => ({
-    title: v.Title.replace("Sinhala Subtitles | සිංහල උපසිරසි සමඟ", "").trim(),
-    description: '',
-    rowId: prefix + 'sintvinfo ' + v.Link
-  }));
-
-  const sections = [{
-    title: "🎬 sinhalasub.lk - TV Shows Results",
-    rows: srh
-  }];
-
-  const caption = `*_SINHALASUB TV SHOW SEARCH RESULTS 📺_*\n\n*🔍 Input:* ${q}`;
-
-  // 🧠 Button-Enabled or List message
-  if (config.BUTTON === "true") {
-    const rowss = results.map(v => ({
-      title: v.Title.replace(/WEBDL|BluRay|HD|FHD|SD|Telegram/gi, "").trim(),
-      id: prefix + `sintvinfo ${v.Link}`
+    // 🧾 Format list message
+    const srh = results.map(v => ({
+      title: v.Title.replace("Sinhala Subtitles | සිංහල උපසිරසි සමඟ", "").trim(),
+      description: '',
+      rowId: prefix + 'sintvinfo ' + v.Link
     }));
 
-    const listButtons = {
-      title: "Choose a TV Show 🎥",
-      sections: [
-        {
+    const sections = [{
+      title: "🎬 sinhalasub.lk - TV Shows Results",
+      rows: srh
+    }];
 
-       title: "Available TV Shows",
-          rows: rowss
-        }
-      ]
-    };
+    const caption = `*_SINHALASUB TV SHOW SEARCH RESULTS 📺_*\n\n*🔍 Input:* ${q}`;
 
-    await conn.sendMessage(from, {
-      image: { url: config.LOGO },
-      caption: caption,
-      footer: config.FOOTER,
-      buttons: [
-        {
-          buttonId: "tv_list",
-          buttonText: { displayText: "📺 Select TV Show" },
-          type: 4,
-          nativeFlowInfo: {
-            name: "single_select",
-            paramsJson: JSON.stringify(listButtons)
+    if (config.BUTTON === "true") {
+      const rowss = results.map(v => ({
+        title: v.Title.replace(/WEBDL|BluRay|HD|FHD|SD|Telegram/gi, "").trim(),
+        id: prefix + `sintvinfo ${v.Link}`
+      }));
+
+      const listButtons = {
+        title: "Choose a TV Show 🎥",
+        sections: [
+          {
+            title: "Available TV Shows",
+            rows: rowss
           }
-        }
-      ],
-      headerType: 1,
-      viewOnce: true
-    }, { quoted: mek });
-  } else {
-    const listMessage = {
-      text: caption,
-      footer: config.FOOTER,
-      title: 'sinhalasub.lk results 🎬',
-      buttonText: '*Reply with number 🔢*',
-      sections
-    };
-    await conn.listMessage(from, listMessage, mek);
-  }
+        ]
+      };
 
-} catch (e) {
-  reply('🚫 *Error occurred !!*\n\n' + e);
-  console.log(e);
-}
-}); 
+      await conn.sendMessage(from, {
+        image: { url: config.LOGO },
+        caption: caption,
+        footer: config.FOOTER,
+        buttons: [
+          {
+            buttonId: "tv_list",
+            buttonText: { displayText: "📺 Select TV Show" },
+            type: 4,
+            nativeFlowInfo: {
+              name: "single_select",
+              paramsJson: JSON.stringify(listButtons)
+            }
+          }
+        ],
+        headerType: 1,
+        viewOnce: true
+      }, { quoted: mek });
+
+    } else {
+      const listMessage = {
+        text: caption,
+        footer: config.FOOTER,
+        title: 'sinhalasub.lk results 🎬',
+        buttonText: '*Reply with number 🔢*',
+        sections
+      };
+      await conn.listMessage(from, listMessage, mek);
+    }
+
+  } catch (e) {
+    reply('🚫 *Error occurred !!*\n\n' + e);
+    console.log(e);
+  }
+});
 
 //=======================================
 
+//==========================
+// sintvinfo
+//==========================
 cmd({
     pattern: "sintvinfo",
     alias: ["mdv"],
@@ -494,114 +500,101 @@ cmd({
     desc: "Get TV show info and download links from sinhalasub.lk",
     filename: __filename
 },
-
 async (conn, mek, m, { from, q, prefix, reply, isOwner, isMe }) => {
-try {
-
+  try {
     if (!q) return reply('🚩 *Please provide a valid sinhalasub.lk TV show link!*');
     if (!q.includes('https://sinhalasub.lk/tvshows/')) {
-        return await reply('*❗ Invalid link detected!*\n_This command is only for TV shows — use `.mv` for movies._');
+      return await reply('*❗ Invalid link detected!*\n_This command is only for TV shows — use `.mv` for movies._');
     }
 
-    // ✅ Fetch data from API
-    const { data } = await axios.get(`https://test-sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/tv/info?q=${encodeURIComponent(q)}&apiKey=vispermdv4`);
+    // ✅ Using your provided API
+    const { data } = await axios.get(`https://sadaslk-apis.vercel.app/api/v1/movie/sinhalasub/tv/info?q=${encodeURIComponent(q)}&apiKey=c56182a993f60b4f49cf97ab09886d17`);
 
     if (!data || !data.result) {
-        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-        return reply('*No information found for this TV show ❌*');
+      await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+      return reply('*No information found for this TV show ❌*');
     }
 
-    const sadas = data;
-    const show = sadas.result;
+    const show = data.result;
 
     // 🧾 Create episode list buttons
     const rows = [];
-
-    // “Details” button
     rows.push({
-        buttonId: prefix + 'dtaqt ' + q,
-        buttonText: { displayText: '📜 Show Details' },
-        type: 1
+      buttonId: prefix + 'dtaqt ' + q,
+      buttonText: { displayText: '📜 Show Details' },
+      type: 1
     });
 
-    // Episode buttons
     if (show.episodes && show.episodes.length > 0) {
-        show.episodes.forEach((ep) => {
-            rows.push({
-                buttonId: prefix + `sintvfirstdl ${ep.episode_link}+${show.image[0]}`,
-                buttonText: { displayText: `${ep.title}` },
-                type: 1
-            });
+      show.episodes.forEach(ep => {
+        rows.push({
+          buttonId: prefix + `sintvfirstdl ${ep.episode_link}+${show.image[0]}`,
+          buttonText: { displayText: `${ep.title}` },
+          type: 1
         });
+      });
     }
 
-    // 🎬 Caption text
     const msg = `*📺 𝗧ɪᴛʟᴇ ➮* _${show.title || 'N/A'}_\n
 *📅 𝗥ᴇʟᴇᴀꜱᴇ 𝗗ᴀᴛᴇ ➮* _${show.date || 'N/A'}_
 *⭐ 𝗜𝗠𝗗𝗕 𝗥𝗮𝘁𝗶𝗻𝗴 ➮* _${show.imdb || 'N/A'}_
-*🧑‍💻 𝗦𝘂𝗯𝘁𝗶𝘁𝗹𝗲 𝗕𝘆 ➮* _${show.director || 'N/A'}_
-`;
+*🧑‍💻 𝗦𝘂𝗯𝘁𝗶𝘁𝗹𝗲 𝗕𝘆 ➮* _${show.director || 'N/A'}_`;
 
     const imageUrl = show.image?.[0] || config.LOGO;
-
-    // 🧠 Native single-select button layout
-    const rowss = (show.episodes || []).map((v) => ({
-        title: v.title.replace(/BluRay|HD|FHD|SD|WEBDL|Telegram/gi, "").trim(),
-        id: prefix + `sintvfirstdl ${v.episode_link}+${show.image[0]}`
+    const rowss = (show.episodes || []).map(v => ({
+      title: v.title.replace(/BluRay|HD|FHD|SD|WEBDL|Telegram/gi, "").trim(),
+      id: prefix + `sintvfirstdl ${v.episode_link}+${show.image[0]}`
     }));
 
     const listButtons = {
-        title: "📺 Choose an Episode to Download",
-        sections: [
-            {
-                title: "Available Episodes",
-                rows: rowss
-            }
-        ]
+      title: "📺 Choose an Episode to Download",
+      sections: [
+        { title: "Available Episodes", rows: rowss }
+      ]
     };
-  
-    // ✅ If BUTTON mode enabled
+
     if (config.BUTTON === "true") {
-        await conn.sendMessage(from, {
-            image: { url: imageUrl },
-            caption: msg,
-            footer: config.FOOTER,
-            buttons: [
-                {
-                    buttonId: prefix + 'dtaqt ' + q,
-                    buttonText: { displayText: "📜 Show Details" },
-                    type: 1
-                },
-                {
-                    buttonId: "download_list",
-                    buttonText: { displayText: "🎥 Select Episode" },
-                    type: 4,
-                    nativeFlowInfo: {
-                        name: "single_select",
-                        paramsJson: JSON.stringify(listButtons)
-                    }
-                }
-            ],
-            headerType: 1,
-            viewOnce: true
-        }, { quoted: mek });
+      await conn.sendMessage(from, {
+        image: { url: imageUrl },
+        caption: msg,
+        footer: config.FOOTER,
+        buttons: [
+          {
+            buttonId: prefix + 'dtaqt ' + q,
+            buttonText: { displayText: "📜 Show Details" },
+            type: 1
+          },
+          {
+            buttonId: "download_list",
+            buttonText: { displayText: "🎥 Select Episode" },
+            type: 4,
+            nativeFlowInfo: {
+              name: "single_select",
+              paramsJson: JSON.stringify(listButtons)
+            }
+          }
+        ],
+        headerType: 1,
+        viewOnce: true
+      }, { quoted: mek });
     } else {
-        // 🧾 Fallback buttonMessage mode
-        const buttonMessage = {
-            image: { url: imageUrl },
-            caption: msg,
-            footer: config.FOOTER,
-            buttons: rows,
-            headerType: 4
-        };
-        await conn.buttonMessage(from, buttonMessage, mek);
+      const buttonMessage = {
+        image: { url: imageUrl },
+        caption: msg,
+        footer: config.FOOTER,
+        buttons: rows,
+        headerType: 4
+      };
+      await conn.buttonMessage(from, buttonMessage, mek);
     }
 
-} catch (e) {
+  } catch (e) {
     reply('🚫 *Error Occurred !!*\n\n' + e);
     console.log(e);
-}
+  }
 });
+
+//==========================
 
 //==========================
 
