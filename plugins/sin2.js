@@ -64,30 +64,29 @@ async (conn, m, mek, { from, q, prefix, isPre, isMe, isSudo, isOwner, reply }) =
 
         if (!q) return await reply('*Please enter a movie name! 🎬*');
 
-        // 🔗 Fetch SinhalaSub API
-        const { data: apiRes } = await axios.get(`https://visper-md-ap-is.vercel.app/movie/sinhalasub/search?q=${encodeURIComponent(q)}`);
+ // ✅ Fetch API response safely
+  const response = await axios.get(`https://visper-md-ap-is.vercel.app/movie/sinhalasub/search?q=${encodeURIComponent(q)}`);
+  const data = response.data.result || []; // ensure array
 
-        // 🧠 Normalize structure
-        let results = [];
-        if (Array.isArray(apiRes)) results = apiRes;
-        else if (Array.isArray(apiRes.result)) results = apiRes.result;
-        else if (Array.isArray(apiRes.results)) results = apiRes.results;
-        else if (Array.isArray(apiRes.data)) results = apiRes.data;
-        else results = [];
+  if (!Array.isArray(data) || data.length === 0) {
+    await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+    return await conn.sendMessage(from, { text: '*No TV show results found ❌*' }, { quoted: mek });
+  }
 
-        if (!results.length) {
-            await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-            return await conn.sendMessage(from, { text: '*No results found ❌*' }, { quoted: mek });
-        }
+  // 🧩 Filter only TV Shows
+  const results = data.filter(v => /tv|series|season/i.test(v.Title));
 
-        // 🧩 Create list
-        let srh = results.map(v => ({
-            title: (v.Title || v.title || "Unknown Title")
-                .replace(/Sinhala Subtitles\s*\|?\s*සිංහල උපසිරසි.*/gi, "")
-                .trim(),
-            description: "",
-            rowId: prefix + 'sininfo ' + (v.Link || v.link || "")
-        }));
+  if (results.length === 0) {
+    await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+    return await conn.sendMessage(from, { text: '*No TV show results found ❌*' }, { quoted: mek });
+  }
+
+  // 🧾 Format list message
+  const srh = results.map(v => ({
+    title: v.Title.replace("Sinhala Subtitles | සිංහල උපසිරසි සමඟ", "").trim(),
+    description: '',
+    rowId: prefix + 'sintvinfo ' + v.Link
+  }));
 
         const sections = [{
             title: "sinhalasub.lk results",
