@@ -166,19 +166,15 @@ if (config.BUTTON === "true") {
 //========================
 
 cmd({
-    pattern: "cinedl",	
-    react: '🎥',
-    desc: "movie downloader",
+    pattern: "cinedl",
+    react: "🎬",
+    desc: "Download Movie info from Cinesubz",
     filename: __filename
-}, 
-async (conn, m, mek, { from, q, isMe, prefix, reply }) => {
+}, async (conn, m, mek, { q, reply }) => {
     try {
-        // Movie downloader check
-        
-if (!q || !q.includes('https://cinesubz.net/movies/')) {
-    console.log('Invalid input (Movie):', q);
-    return await reply('*❗ This is not a valid movie link. Please use .mv command for movies.*');
-}
+        if (!q || !q.includes("https://cinesubz.net/movies/")) {
+            return reply("*❗ This is not a valid movie link. Please use .mv command for movies.*");
+        }
         // මෙහි movie downloader logic එක ලියන්න
 
 let sadass = await fetchJson(`https://visper-md-ap-is.vercel.app/movie/cine/info?q=${q}`)
@@ -591,19 +587,15 @@ if (config.BUTTON === "true") {
 
 
 cmd({
-    pattern: "cinetvdl",	
-    react: '🎥',
-    desc: "TV downloader",
+    pattern: "cinetvdl",
+    react: "📺",
+    desc: "Download TV show info from Cinesubz",
     filename: __filename
-}, 
-async (conn, m, mek, { from, q, isMe, prefix, reply }) => {
+}, async (conn, m, mek, { q, reply }) => {
     try {
-        // TV downloader check
-        
-if (!q || !q.includes('https://cinesubz.net/tvshows/')) {
-    console.log('Invalid input (TV):', q);
-    return await reply('*❗ This is not a valid TV series link. Please use .tv command for TV shows.*');
-}
+        if (!q || !q.includes("https://cinesubz.net/tvshows")) {
+            return reply("*❗ This is not a valid TV series link. Please use .tv command for TV shows.*");
+        }
 
         // මෙහි TV downloader logic එක ලියන්න
 	
