@@ -773,7 +773,8 @@ cmd({
 
 //===============
 
-  pattern: "tvdll",
+  cmd({
+    pattern: "tvdll",
     react: "⬇️",
     dontAddCommandList: true,
     filename: __filename
